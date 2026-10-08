@@ -87,6 +87,7 @@ set -euo pipefail
       ".codex-global-state.json.bak"
       ".personality_migration"
       ".sandbox_migration"
+      ".sqlite-maintenance.lock"
     )
 
   # Ejecutar el bucle de borrado
