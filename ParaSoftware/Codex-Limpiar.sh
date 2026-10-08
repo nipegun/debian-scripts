@@ -10,10 +10,10 @@ set -euo pipefail
 # Script de NiPeGun para limpiar Codex en Debian
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/ParaSoftware/Codex-Limpiar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/master/ParaSoftware/Codex-Limpiar.sh | bash
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/ParaSoftware/Codex-Limpiar.sh | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/master/ParaSoftware/Codex-Limpiar.sh | nano -
 # ----------
 
 # Definir la constante con la carpeta base
