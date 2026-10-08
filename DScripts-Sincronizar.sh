@@ -6,10 +6,10 @@
 # No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
 
 # ----------
-# Script de NiPeGun para sincronizar los d-scripts
+# Script de NiPeGun para sincronizar los debian-scripts
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/DScripts-Sincronizar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/DScripts-Sincronizar.sh | bash
 # ----------
 
 # Definir constantes de color
@@ -31,14 +31,14 @@
     echo ""
   fi
 
-# Comprobar si hay conexión a Internet antes de sincronizar los d-scripts
+# Comprobar si hay conexión a Internet antes de sincronizar los debian-scripts
   wget -q --tries=10 --timeout=20 --spider https://github.com
   if [[ $? -eq 0 ]]; then
-    # Sincronizar los d-scripts
+    # Sincronizar los debian-scripts
       echo ""
-      echo -e "${cColorAzulClaro}  Sincronizando los d-scripts con las últimas versiones y descargando nuevos d-scripts (si es que existen)...${cFinColor}"
+      echo -e "${cColorAzulClaro}  Sincronizando los debian-scripts con las últimas versiones y descargando nuevos debian-scripts (si es que existen)...${cFinColor}"
       echo ""
-      rm ~/scripts/d-scripts -R 2> /dev/null
+      rm ~/scripts/debian-scripts -R 2> /dev/null
       mkdir ~/scripts 2> /dev/null
       cd ~/scripts
       # Comprobar si el paquete git está instalado. Si no lo está, instalarlo.
@@ -50,19 +50,19 @@
           apt-get -y install git
           echo ""
         fi
-      git clone --depth=1 https://github.com/nipegun/d-scripts
-      rm ~/scripts/d-scripts/.git -R 2> /dev/null
-      find ~/scripts/d-scripts/ -type f -iname "*.sh" -exec chmod +x {} \;
+      git clone --depth=1 https://github.com/nipegun/debian-scripts
+      rm ~/scripts/debian-scripts/.git -R 2> /dev/null
+      find ~/scripts/debian-scripts/ -type f -iname "*.sh" -exec chmod +x {} \;
       echo ""
-      echo -e "${cColorVerde}    d-scripts sincronizados correctamente.${cFinColor}"
+      echo -e "${cColorVerde}    debian-scripts sincronizados correctamente.${cFinColor}"
       echo ""
     # Crear los alias
-      mkdir -p ~/scripts/d-scripts/Alias/
-      ~/scripts/d-scripts/DScripts-CrearAlias.sh
-      find ~/scripts/d-scripts/Alias -type f -exec chmod +x {} \;
+      mkdir -p ~/scripts/debian-scripts/Alias/
+      ~/scripts/debian-scripts/DScripts-CrearAlias.sh
+      find ~/scripts/debian-scripts/Alias -type f -exec chmod +x {} \;
   else
     echo ""
-    echo -e "${cColorRojo}  No se pudo iniciar la sincronización de los d-scripts porque no se detectó conexión a Internet.${cFinColor}"
+    echo -e "${cColorRojo}  No se pudo iniciar la sincronización de los debian-scripts porque no se detectó conexión a Internet.${cFinColor}"
     echo ""
   fi
 
