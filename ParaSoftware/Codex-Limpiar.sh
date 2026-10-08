@@ -106,6 +106,9 @@ set -euo pipefail
   echo 'model_auto_compact_token_limit = 900000'  | tee -a "$cBaseDir"/config.toml
   echo 'service_tier = "default"'                 | tee -a "$cBaseDir"/config.toml
 
+# Terminar todos los procesos de codex
+  ps -aux | grep .codex | grep -v grep | awk '{print $2}' | xargs -t kill
+
 # Actualizar Codex
   sudo npm install -g @openai/codex
 
