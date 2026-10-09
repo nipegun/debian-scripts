@@ -158,12 +158,13 @@
                 echo ""
                 sudo rm -rf /opt/flectra/venv/
                 sudo su -s /bin/bash -c '\
-                  mkdir /opt/flectra/venv/                            && \
-                  python3 -m venv /opt/flectra/venv/                  && \
-                  source /opt/flectra/venv/bin/activate               && \
-                  pip install cython                                  && \
-                  pip install wheel                                   && \
-                  pip install -r /opt/flectra/Code/requirements.txt   && \
+                  mkdir /opt/flectra/venv/                                 && \
+                  python3 -m venv /opt/flectra/venv/                       && \
+                  source /opt/flectra/venv/bin/activate                    && \
+                  export CFLAGS="-Wno-error=implicit-function-declaration" && \
+                  pip install cython                                       && \
+                  pip install wheel                                        && \
+                  pip install -r /opt/flectra/Code/requirements.txt        && \
                   deactivate \
                 ' flectra
 
