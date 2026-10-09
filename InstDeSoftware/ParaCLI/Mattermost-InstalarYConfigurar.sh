@@ -72,24 +72,14 @@ vDominioMM="mattermost.dominio.com"
     echo -e "${cColorAzulClaro}  Iniciando el script de instalación de Mattermost para Debian 13 (x)...${cFinColor}"
     echo ""
 
-    echo ""
-    echo -e "${cColorRojo}    Comandos para Debian 13 todavía no preparados. Prueba ejecutarlo en otra versión de Debian.${cFinColor}"
-    echo ""
-
-  elif [ $cVerSO == "12" ]; then
-
-    echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de instalación de Mattermost para Debian 12 (Bookworm)...${cFinColor}"
-    echo ""
-
     # Instalar PostgreSQL
       echo ""
       echo "    Instalando PostgreSQL..."
       echo ""
-      apt-get update
-      apt-get -y install postgresql
-      apt-get -y install postgresql-contrib
-      systemctl enable postgresql --now
+      sudo apt-get update
+      sudo apt-get -y install postgresql
+      sudo apt-get -y install postgresql-contrib
+      sudo systemctl enable postgresql --now
       # Crear la base de datos y el usuario para Mattermost
         echo ""
         echo "      Creando el usuario y la base de datos para mattermost..."
@@ -98,43 +88,53 @@ vDominioMM="mattermost.dominio.com"
           # Obtener la versión de PostgreSQL instalada
             vVersPostgreInst=$(ls /etc/postgresql/ | tail -n1)
           cp /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf.bak
-          sed -i -e 's|local   all             postgres                                peer|local all postgres trust|g' /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf
-          systemctl restart postgresql
+          sudo sed -i -e 's|local   all             all                                     peer|local all postgres trust|g' /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf
+          sudo systemctl restart postgresql
         vUsuarioMMPostgreSQL="mmuser"
-        vPasswordMMPostgreSQL="P@ssw0rd!"
+        vPasswordMMPostgreSQL='P@ssw0rd!'
         vNombreBDPostgreSQL="mattermost"
-        psql -U postgres -c "CREATE USER $vUsuarioMMPostgreSQL WITH PASSWORD '$vPasswordMMPostgreSQL';"
-        psql -U postgres -c "CREATE DATABASE $vNombreBDPostgreSQL OWNER $vUsuarioMMPostgreSQL;"
-        psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE $vNombreBDPostgreSQL TO $vUsuarioMMPostgreSQL;"
+        sudo psql -U postgres -c "CREATE USER $vUsuarioMMPostgreSQL WITH PASSWORD '$vPasswordMMPostgreSQL';"
+        sudo psql -U postgres -c "CREATE DATABASE $vNombreBDPostgreSQL OWNER $vUsuarioMMPostgreSQL;"
+        sudo psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE $vNombreBDPostgreSQL TO $vUsuarioMMPostgreSQL;"
         # Restaurar la autenticación del usuario postres
-          cp /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf.bak
-          sed -i -e 's|local all postgres trust|local all postgres peer|g' /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf
-          systemctl restart postgresql
+          sudo cp /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf.bak
+          sudo sed -i -e 's|local all postgres trust|local all postgres peer|g' /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf
+          sudo systemctl restart postgresql
 
-    # Consultar el número de la última versión de Mattermost disponible
+
+    # Obtener el tag de la última release del repo de Github
       echo ""
-      echo "    Consultando el número de la última versión disponible de Mattermost..."
+      echo "    Obteniendo el tag de la última release del repo de Github..."
       echo ""
+      vUsuario='mattermost'
+      vNombreDelRepo='mattermost'
       # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
         if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
           echo ""
           echo -e "${cColorRojo}      El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
           echo ""
-          apt-get -y update && apt-get -y install curl
+          sudo apt-get -y update
+          sudo apt-get -y install curl
           echo ""
         fi
-      vNumUltVers=$(curl -sL https://github.com/mattermost/mattermost/releases/latest/ | sed 's->->\n-g' | grep tag | grep tree | sed 's-/tree/-/tree/\n-g' | grep ^v | cut -d'"' -f1 | head -n1 | cut -d'v' -f2)
-      echo ""
-      echo "      La última versión disponible parece ser la $vNumUltVers"
-      echo ""
+      # Comprobar si el paquete jq está instalado. Si no lo está, instalarlo.
+        if [[ $(dpkg-query -s jq 2>/dev/null | grep installed) == "" ]]; then
+          echo ""
+          echo -e "${cColorRojo}      El paquete jq no está instalado. Iniciando su instalación...${cFinColor}"
+          echo ""
+          sudo apt-get -y update
+          sudo apt-get -y install jq
+          echo ""
+        fi
+      vNumUltVers=$(curl -s https://api.github.com/repos/"$vUsuario"/"$vNombreDelRepo"/releases/latest | jq -r '.tag_name' | cut -d'v' -f2)
 
     # Descargar el archivo comprimido de la última versión
       echo ""
       echo "    Descargando el archivo comprimido de la última versión..."
       echo ""
-      rm -rf   /root/SoftInst/Mattermost/* 2> /dev/null
-      mkdir -p /root/SoftInst/Mattermost/  2> /dev/null
-      cd       /root/SoftInst/Mattermost/
+      rm -rf   /tmp/SoftInst/Mattermost/* 2> /dev/null
+      mkdir -p /tmp/SoftInst/Mattermost/  2> /dev/null
+      cd       /tmp/SoftInst/Mattermost/
       curl -L https://releases.mattermost.com/$vNumUltVers/mattermost-$vNumUltVers-linux-amd64.tar.gz -o Mattermost.tar.gz
       echo ""
 
@@ -149,69 +149,70 @@ vDominioMM="mattermost.dominio.com"
       echo ""
       echo "    Agregando el usuario mattermost..."
       echo ""
-      useradd --system --user-group mattermost
+      sudo useradd --system --user-group mattermost
 
     # Preparar la carpeta final
       echo ""
       echo "    Preparando la carpeta final..."
       echo ""
-      mv mattermost /opt
-      mkdir /opt/mattermost/data
-      chown -R mattermost:mattermost /opt/mattermost
-      chmod -R g+w /opt/mattermost
+      sudo mv mattermost /opt
+      sudo mkdir /opt/mattermost/data
+      sudo chown -R mattermost:mattermost /opt/mattermost
+      sudo chmod -R g+w /opt/mattermost
 
     # Preparar el servicio de systemd
       echo ""
       echo "    Preparando el servicio de systemd..."
       echo ""
-      echo "[Unit]"                                    > /etc/systemd/system/mattermost.service
-      echo "Description=Mattermost"                   >> /etc/systemd/system/mattermost.service
-      echo "After=network.target"                     >> /etc/systemd/system/mattermost.service
-      echo "After=postgresql.service"                 >> /etc/systemd/system/mattermost.service # Aconsejable al instalar mattermost en la misma máquina que PosgreSQL
-      echo "BindsTo=postgresql.service"               >> /etc/systemd/system/mattermost.service # Aconsejable al instalar mattermost en la misma máquina que PosgreSQL
-      echo ""                                         >> /etc/systemd/system/mattermost.service
-      echo "[Service]"                                >> /etc/systemd/system/mattermost.service
-      echo "Type=notify"                              >> /etc/systemd/system/mattermost.service
-      echo "ExecStart=/opt/mattermost/bin/mattermost" >> /etc/systemd/system/mattermost.service
-      echo "TimeoutStartSec=3600"                     >> /etc/systemd/system/mattermost.service
-      echo "KillMode=mixed"                           >> /etc/systemd/system/mattermost.service
-      echo "Restart=always"                           >> /etc/systemd/system/mattermost.service
-      echo "RestartSec=10"                            >> /etc/systemd/system/mattermost.service
-      echo "WorkingDirectory=/opt/mattermost"         >> /etc/systemd/system/mattermost.service
-      echo "User=mattermost"                          >> /etc/systemd/system/mattermost.service
-      echo "Group=mattermost"                         >> /etc/systemd/system/mattermost.service
-      echo "LimitNOFILE=49152"                        >> /etc/systemd/system/mattermost.service
-      echo ""                                         >> /etc/systemd/system/mattermost.service
-      echo "[Install]"                                >> /etc/systemd/system/mattermost.service
-      echo "WantedBy=multi-user.target"               >> /etc/systemd/system/mattermost.service
+      echo "[Unit]"                                   | sudo tee    /etc/systemd/system/mattermost.service
+      echo "Description=Mattermost"                   | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "After=network.target"                     | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "After=postgresql.service"                 | sudo tee -a /etc/systemd/system/mattermost.service # Aconsejable al instalar mattermost en la misma máquina que PosgreSQL
+      echo "BindsTo=postgresql.service"               | sudo tee -a /etc/systemd/system/mattermost.service # Aconsejable al instalar mattermost en la misma máquina que PosgreSQL
+      echo ""                                         | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "[Service]"                                | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "Type=notify"                              | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "ExecStart=/opt/mattermost/bin/mattermost" | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "TimeoutStartSec=3600"                     | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "KillMode=mixed"                           | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "Restart=always"                           | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "RestartSec=10"                            | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "WorkingDirectory=/opt/mattermost"         | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "User=mattermost"                          | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "Group=mattermost"                         | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "LimitNOFILE=49152"                        | sudo tee -a /etc/systemd/system/mattermost.service
+      echo ""                                         | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "[Install]"                                | sudo tee -a /etc/systemd/system/mattermost.service
+      echo "WantedBy=multi-user.target"               | sudo tee -a /etc/systemd/system/mattermost.service
 
     # Configurar Mattermost
       echo ""
       echo "    Configurando la aplicación..."
       echo ""
       # Hacer copia de seguridad del archivo de configuración
-        cp /opt/mattermost/config/config.json /opt/mattermost/config/config.json.bak.ori
+        sudo cp /opt/mattermost/config/config.json /opt/mattermost/config/config.json.bak.ori
       # Modificar el DataSource
         # Comprobar si el paquete jq está instalado. Si no lo está, instalarlo.
           if [[ $(dpkg-query -s jq 2>/dev/null | grep installed) == "" ]]; then
             echo ""
             echo -e "${cColorRojo}      El paquete jq no está instalado. Iniciando su instalación...${cFinColor}"
             echo ""
-            apt-get -y update && apt-get -y install jq
+            sudo apt-get -y update
+            sudo apt-get -y install jq
             echo ""
           fi
-        jq '.SqlSettings.DataSource = "postgres://'"$vUsuarioMMPostgreSQL:$vPasswordMMPostgreSQL@localhost:5432/$vNombreBDPostgreSQL?sslmode=disable&connect_timeout=10"'"' /opt/mattermost/config/config.json > /tmp/mmconfig.json && mv /tmp/mmconfig.json /opt/mattermost/config/config.json
+        sudo jq '.SqlSettings.DataSource = "postgres://'"$vUsuarioMMPostgreSQL:$vPasswordMMPostgreSQL@localhost:5432/$vNombreBDPostgreSQL?sslmode=disable&connect_timeout=10"'"' /opt/mattermost/config/config.json > /tmp/mmconfig.json && mv /tmp/mmconfig.json /opt/mattermost/config/config.json
       # Modificar el SiteURL
-        jq '.ServiceSettings.SiteURL = "http://'"$vDominioMM"'"' /opt/mattermost/config/config.json > /tmp/mmconfig.json && mv /tmp/mmconfig.json /opt/mattermost/config/config.json
+        sudo jq '.ServiceSettings.SiteURL = "http://'"$vDominioMM"'"' /opt/mattermost/config/config.json > /tmp/mmconfig.json && mv /tmp/mmconfig.json /opt/mattermost/config/config.json
       # Corregir propietario de los archivos
-        chown mattermost:mattermost /opt/mattermost -R
+        sudo chown mattermost:mattermost /opt/mattermost -R
 
     # Activar e iniciar el servicio
       echo ""
       echo "    Activando e iniciando el servicio..."
       echo ""
-      systemctl daemon-reload
-      systemctl enable mattermost.service --now
+      sudo systemctl daemon-reload
+      sudo systemctl enable mattermost.service --now
 
     # Notificar fin de ejecución del script
       echo ""
@@ -222,6 +223,16 @@ vDominioMM="mattermost.dominio.com"
 
 #Depending on your configuration, there are several important folders in /opt/mattermost to backup.
 #These are config, logs, plugins, client/plugins, and data. We strongly recommend you back up these locations before running the rm command.
+
+  elif [ $cVerSO == "12" ]; then
+
+    echo ""
+    echo -e "${cColorAzulClaro}  Iniciando el script de instalación de Mattermost para Debian 12 (Bookworm)...${cFinColor}"
+    echo ""
+
+    echo ""
+    echo -e "${cColorRojo}    Comandos para Debian 12 todavía no preparados. Prueba ejecutarlo en otra versión de Debian.${cFinColor}"
+    echo ""
 
   elif [ $cVerSO == "11" ]; then
 
