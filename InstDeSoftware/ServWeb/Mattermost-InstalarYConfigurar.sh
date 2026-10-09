@@ -90,7 +90,6 @@ vDominioMM="mattermost.dominio.com"
           sudo sed -i -e 's|local all postgres trust|local all postgres peer|g' /etc/postgresql/$vVersPostgreInst/main/pg_hba.conf
           sudo systemctl restart postgresql
 
-
     # Obtener el tag de la última release del repo de Github
       echo ""
       echo "    Obteniendo el tag de la última release del repo de Github..."
@@ -195,6 +194,72 @@ vDominioMM="mattermost.dominio.com"
         sudo jq '.ServiceSettings.SiteURL = "http://'"$vDominioMM"'"' /opt/mattermost/config/config.json > /tmp/mmconfig.json && mv /tmp/mmconfig.json /opt/mattermost/config/config.json
       # Corregir propietario de los archivos
         sudo chown mattermost:mattermost /opt/mattermost -R
+
+    # Activar HTTPS con certificado autofirmado y redirección de HTTP a HTTPS (configuración nativa de Mattermost)
+      echo ""
+      echo "    Activando HTTPS con certificado autofirmado..."
+      echo ""
+      # Permitir a Mattermost escuchar en los puertos 80 y 443 sin ser root (a diferencia de setcap, no se pierde al actualizar el binario)
+        sudo sed -i -e '/^\[Service\]$/a AmbientCapabilities=CAP_NET_BIND_SERVICE' /etc/systemd/system/mattermost.service
+      # Comprobar si el paquete openssl está instalado. Si no lo está, instalarlo.
+        if [[ $(dpkg-query -s openssl 2>/dev/null | grep installed) == "" ]]; then
+          echo ""
+          echo -e "${cColorRojo}      El paquete openssl no está instalado. Iniciando su instalación...${cFinColor}"
+          echo ""
+          sudo apt-get -y update
+          sudo apt-get -y install openssl
+          echo ""
+        fi
+      # Obtener el nombre DNS y la IP del servidor
+        vNombreDNS=$(hostname -f 2>/dev/null)
+        if [ -z "$vNombreDNS" ]; then
+          vNombreDNS=$(hostname)
+        fi
+        vIPServidor=$(ip -4 route get 1.1.1.1 2>/dev/null | sed -n 's/.* src \([0-9.]*\).*/\1/p' | head -n 1)
+        if [ -z "$vIPServidor" ]; then
+          vIPServidor=$(hostname -I 2>/dev/null | sed 's/ .*//')
+        fi
+      # Crear el SAN para el certificado (el dominio o IP de Mattermost, el nombre DNS y la IP del servidor)
+        if [[ "$vDominioMM" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          vSAN="IP:$vDominioMM"
+        else
+          vSAN="DNS:$vDominioMM"
+        fi
+        if [ -n "$vNombreDNS" ] && [ "$vNombreDNS" != "$vDominioMM" ]; then
+          vSAN="$vSAN,DNS:$vNombreDNS"
+        fi
+        if [ -n "$vIPServidor" ] && [ "$vIPServidor" != "$vDominioMM" ]; then
+          vSAN="$vSAN,IP:$vIPServidor"
+        fi
+      # Generar el certificado y la clave privada (la clave va sin contraseña porque Mattermost no admite claves protegidas)
+        sudo mkdir -p /opt/mattermost/config/tls
+        sudo openssl req \
+          -x509 \
+          -nodes \
+          -newkey rsa:4096 \
+          -sha256 \
+          -days 3650 \
+          -keyout /opt/mattermost/config/tls/mattermost.key \
+          -out /opt/mattermost/config/tls/mattermost.crt \
+          -subj "/CN=$vDominioMM" \
+          -addext "subjectAltName=$vSAN" \
+          -addext "basicConstraints=critical,CA:FALSE" \
+          -addext "keyUsage=critical,digitalSignature,keyEncipherment" \
+          -addext "extendedKeyUsage=serverAuth"
+        sudo chown -R mattermost:mattermost /opt/mattermost/config/tls
+        sudo chmod 700 /opt/mattermost/config/tls
+        sudo chmod 600 /opt/mattermost/config/tls/mattermost.key
+        sudo chmod 644 /opt/mattermost/config/tls/mattermost.crt
+      # Cambiar el SiteURL a https
+        sudo jq '.ServiceSettings.SiteURL = "https://'"$vDominioMM"'"' /opt/mattermost/config/config.json > /tmp/mmconfig.json && mv /tmp/mmconfig.json /opt/mattermost/config/config.json
+      # Activar HTTPS con el certificado autofirmado
+        sudo jq '.ServiceSettings.ConnectionSecurity = "TLS" | .ServiceSettings.TLSCertFile = "/opt/mattermost/config/tls/mattermost.crt" | .ServiceSettings.TLSKeyFile = "/opt/mattermost/config/tls/mattermost.key" | .ServiceSettings.UseLetsEncrypt = false' /opt/mattermost/config/config.json > /tmp/mmconfig.json && mv /tmp/mmconfig.json /opt/mattermost/config/config.json
+      # Escuchar en el puerto 443 y redirigir el puerto 80 a HTTPS (Forward80To443 sólo funciona si ListenAddress usa el puerto 443)
+        sudo jq '.ServiceSettings.ListenAddress = ":443" | .ServiceSettings.Forward80To443 = true' /opt/mattermost/config/config.json > /tmp/mmconfig.json && mv /tmp/mmconfig.json /opt/mattermost/config/config.json
+      # No activar HSTS: con un certificado autofirmado, el navegador no dejaría aceptar la excepción de seguridad
+        sudo jq '.ServiceSettings.TLSStrictTransport = false' /opt/mattermost/config/config.json > /tmp/mmconfig.json && mv /tmp/mmconfig.json /opt/mattermost/config/config.json
+      # Corregir propietario del archivo de configuración
+        sudo chown mattermost:mattermost /opt/mattermost/config/config.json
 
     # Activar e iniciar el servicio
       echo ""
