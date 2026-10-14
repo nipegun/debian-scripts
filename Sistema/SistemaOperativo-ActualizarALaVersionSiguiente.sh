@@ -9,13 +9,13 @@
 # Script de NiPeGun para actualizar Debian a la versión inmediatamente posterior
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/Sistema/SistemaOperativo-ActualizarALaVersionSiguiente.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/master/Sistema/SistemaOperativo-ActualizarALaVersionSiguiente.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/Sistema/SistemaOperativo-ActualizarALaVersionSiguiente.sh | sed 's-sudo--g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/master/Sistema/SistemaOperativo-ActualizarALaVersionSiguiente.sh | sed 's-sudo--g' | bash
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/Sistema/SistemaOperativo-ActualizarALaVersionSiguiente.sh | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/master/Sistema/SistemaOperativo-ActualizarALaVersionSiguiente.sh | nano -
 # ----------
 
 # Definir constantes de color
