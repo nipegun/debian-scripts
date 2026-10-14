@@ -9,10 +9,10 @@
 # Script de NiPeGun para ctualizar e inmediamente apagar el sistema operativo
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/master/SistemaOperativo-ActualizarYApagar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/master/SistemaOperativo-ActualizarYApagar.sh | bash
 #
 # Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/d-scripts/master/SistemaOperativo-ActualizarYApagar.sh | bash
+#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/debian-scripts/master/SistemaOperativo-ActualizarYApagar.sh | bash
 # ----------
 
 # Definir constantes de color
@@ -32,8 +32,8 @@
     exit
   fi
 
-# Comprobar que los d-scripts estén instalados
+# Comprobar que los debian-scripts estén instalados
 
-/root/scripts/d-scripts/Sistema/SistemaOperativo-Actualizar.sh
-/root/scripts/d-scripts/Sistema/SistemaOperativo-Apagar.sh
+/root/scripts/debian-scripts/Sistema/SistemaOperativo-Actualizar.sh
+/root/scripts/debian-scripts/Sistema/SistemaOperativo-Apagar.sh
 
