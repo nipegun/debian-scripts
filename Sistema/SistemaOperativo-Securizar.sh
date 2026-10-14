@@ -9,7 +9,7 @@
 # Script de NiPeGun para securizar el sistema operativo Debian
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/SistemaOperativo-Securizar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/master/SistemaOperativo-Securizar.sh | bash
 # ----------
 
 # Definir constantes de color
