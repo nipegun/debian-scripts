@@ -9,10 +9,10 @@
 # Script de NiPeGun para actualizar Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/master/SistemaOperativo-Actualizar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/master/SistemaOperativo-Actualizar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/master/SistemaOperativo-Actualizar.sh | sed 's-sudo--g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/master/SistemaOperativo-Actualizar.sh | sed 's-sudo--g' | bash
 #
 # ----------
 
