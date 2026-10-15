@@ -114,7 +114,7 @@ set -euo pipefail
 
 # Terminar todos los procesos de codex
   echo ""
-  echo "  Intentando terminar todos los posibles procesos activbos de codex..."
+  echo "  Intentando terminar todos los posibles procesos activos de codex..."
   echo ""
   ps -aux | grep .codex | grep -v grep | awk '{print $2}' | xargs -t kill 2> /dev/null
 
