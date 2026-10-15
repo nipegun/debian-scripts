@@ -103,7 +103,7 @@ set -euo pipefail
 
 # Recrear el archivo config.toml
   echo ""
-  echo "  Re-creando el archivo config.toml"
+  echo "  Re-creando el archivo config.toml..."
   echo ""
   echo 'model = "gpt-6-astra"'                    | tee    "$cBaseDir"/config.toml
   echo 'model_reasoning_effort = "xhigh"'         | tee -a "$cBaseDir"/config.toml
@@ -113,7 +113,10 @@ set -euo pipefail
   echo 'service_tier = "default"'                 | tee -a "$cBaseDir"/config.toml
 
 # Terminar todos los procesos de codex
-  ps -aux | grep .codex | grep -v grep | awk '{print $2}' | xargs -t kill
+  echo ""
+  echo "  Intentando terminar todos los posibles procesos activbos de codex..."
+  echo ""
+  ps -aux | grep .codex | grep -v grep | awk '{print $2}' | xargs -t kill 2> /dev/null
 
 # Actualizar Codex
   echo ""
