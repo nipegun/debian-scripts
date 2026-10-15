@@ -91,6 +91,9 @@ set -euo pipefail
     )
 
   # Ejecutar el bucle de borrado
+    echo ""
+    echo "  Ejecutando el bucle de borrado..."
+    echo ""
     for vArchivo in "${aArchivosABorrar[@]}"; do
       vRutaAlArchivo="$cBaseDir/$vArchivo"
       if [ -f "$vRutaAlArchivo" ]; then
@@ -99,6 +102,9 @@ set -euo pipefail
     done
 
 # Recrear el archivo config.toml
+  echo ""
+  echo "  Re-creando el archivo config.toml"
+  echo ""
   echo 'model = "gpt-6-astra"'                    | tee    "$cBaseDir"/config.toml
   echo 'model_reasoning_effort = "xhigh"'         | tee -a "$cBaseDir"/config.toml
   echo 'plan_mode_reasoning_effort = "max"'       | tee -a "$cBaseDir"/config.toml
@@ -110,6 +116,9 @@ set -euo pipefail
   ps -aux | grep .codex | grep -v grep | awk '{print $2}' | xargs -t kill
 
 # Actualizar Codex
+  echo ""
+  echo "  Actualizando Codex a la última versión..."
+  echo ""
   sudo npm install -g @openai/codex
 
 # Listar los archivos remanentes de la carpeta
