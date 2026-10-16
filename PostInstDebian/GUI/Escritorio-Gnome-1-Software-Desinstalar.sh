@@ -9,13 +9,13 @@
 # Script de NiPeGun para desinstalar software en el escritorio Gnome de Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Gnome-1-Software-Desinstalar.sh | sudo bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Gnome-1-Software-Desinstalar.sh | sudo bash
 #
 # Ejecución remota como root:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Gnome-1-Software-Desinstalar.sh | sed 's-sudo--g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Gnome-1-Software-Desinstalar.sh | sed 's-sudo--g' | bash
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Gnome-1-Software-Desinstalar.sh | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Gnome-1-Software-Desinstalar.sh | nano -
 # ----------
 
 # Definir constantes de color
@@ -124,7 +124,7 @@
       sudo apt-get -y autoclean
 
     # Desinstalar el gestor de ventanas awesome
-      curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Awesome-Desinstalar.sh | bash
+      curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Awesome-Desinstalar.sh | bash
 
   elif [ $cVerSO == "12" ]; then
 
