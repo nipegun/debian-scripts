@@ -9,28 +9,28 @@
 # Script de NiPeGun para preparar Debian sin entorno gráfico a gusto de NiPeGun
 #
 # Ejecución remota (puede requerir privilegios sudo):
-#   curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/ModificarElBashRCPorDefecto.sh | bash
+#   curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/ModificarElBashRCPorDefecto.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/ModificarElBashRCPorDefecto.sh | sed 's-sudo--g' | bash
+#   curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/ModificarElBashRCPorDefecto.sh | sed 's-sudo--g' | bash
 # ----------
 
 echo ""
 echo "  Iniciando el script de modificación de .bashrc..."
 echo ""
   # /root/.bashrc
-    curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/.bashrc | sudo tee /root/.bashrc
+    curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/.bashrc | sudo tee /root/.bashrc
     echo 'export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' | sudo tee -a /root/.bashrc
     #sudo su root -c "echo 'export PATH=$PATH' | sudo tee -a /root/.bashrc"
     echo "" | sudo tee -a /root/.bashrc
   # Plantilla de skel
-    curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/.bashrc | sudo tee /etc/skel/.bashrc
+    curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/.bashrc | sudo tee /etc/skel/.bashrc
   # 50 primeros usuarios
     for vIDdeUsuario in {1000..1050}; do
       vNombreDelUsuario=$(getent passwd $vIDdeUsuario | cut -d: -f1)
       if [ -f /home/"$vNombreDelUsuario"/.bashrc ]; then
         echo -e "\n  Modificando /home/"$vNombreDelUsuario"/.bashrc ...\n"
-        curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/.bashrc | sudo tee /home/"$vNombreDelUsuario"/.bashrc 2> /dev/null
+        curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/.bashrc | sudo tee /home/"$vNombreDelUsuario"/.bashrc 2> /dev/null
         echo 'export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games' | sudo tee -a /home/"$vNombreDelUsuario"/.bashrc 2> /dev/null
         sudo chown "$vNombreDelUsuario":"$vNombreDelUsuario" /home/"$vNombreDelUsuario"/.bashrc
       fi
