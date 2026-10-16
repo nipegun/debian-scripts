@@ -51,6 +51,12 @@
       ".tmp"
     )
 
+# Terminar todos los procesos de codex
+  echo ""
+  echo "  Intentando terminar todos los posibles procesos activos de codex..."
+  echo ""
+  ps -aux | grep .codex | grep -v grep | awk '{print $2}' | xargs -t kill 2> /dev/null
+
   # Ejecutar el bucle de borrado
     for vCarpeta in "${aCarpetasABorrar[@]}"; do
       vRutaALaCarpeta="$cBaseDir/$vCarpeta"
