@@ -9,13 +9,13 @@
 # Script de NiPeGun para poner todos los repos en Debian
 #
 # Ejecución remota (puede requeerir permisos sudo):
-#   curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Repositorios-Todos-Poner.sh | sudo bash
+#   curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Repositorios-Todos-Poner.sh | sudo bash
 #
 # Ejecución remota como root:
-#   curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Repositorios-Todos-Poner.sh | sed 's-sudo--g' | bash
+#   curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Repositorios-Todos-Poner.sh | sed 's-sudo--g' | bash
 #
 # Ejecución remota como root:
-#   curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Repositorios-Todos-Poner.sh | bash
+#   curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Repositorios-Todos-Poner.sh | bash
 # ----------
 
 # Definir constantes de color
