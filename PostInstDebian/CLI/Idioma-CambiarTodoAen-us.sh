@@ -9,7 +9,7 @@
 # Script de NiPeGun para cambiar el idioma del sistema y del teclado a sólo inglés de USA
 #
 # Ejecución remota como root:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Idioma-CambiarTodoAen-us.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Idioma-CambiarTodoAen-us.sh | bash
 # ----------
 
 # Definir constantes de color
