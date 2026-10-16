@@ -9,10 +9,10 @@
 # Script de NiPeGun para desinstalar software del escritorio Mate de Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Mate-1-Software-Desinstalar.sh | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Mate-1-Software-Desinstalar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Mate-1-Software-Desinstalar.sh | sed 's-sudo--g' | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Mate-1-Software-Desinstalar.sh | sed 's-sudo--g' | bash
 # ----------
 
 # Definir constantes de color
