@@ -9,7 +9,7 @@
 # Script de NiPeGun para preparás el menú de ciberseguridad en Mate
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Mate-Menu-Ciberseguridad-Crear.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Mate-Menu-Ciberseguridad-Crear.sh | bash
 # ----------
 
 # Definir constantes de color
