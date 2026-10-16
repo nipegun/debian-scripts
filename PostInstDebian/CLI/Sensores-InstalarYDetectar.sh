@@ -9,7 +9,7 @@
 # Script de NiPeGun para instalar y configurar los sensores de hardware
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Sensores-InstalarYDetectar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Sensores-InstalarYDetectar.sh | bash
 # ----------
 
 # Definir constantes de color
