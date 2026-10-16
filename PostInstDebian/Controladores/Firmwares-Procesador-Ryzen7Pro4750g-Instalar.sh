@@ -9,7 +9,7 @@
 # Script de NiPeGun para instalar el firmware para el procesador Ryzen 7 Pro 4750G en Debian
 #
 # Ejecución remota:
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Firmwares-Procesador-Ryzen7Pro4750g-Instalar.sh | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Firmwares-Procesador-Ryzen7Pro4750g-Instalar.sh | bash
 # ----------
 
 cColorRojo='\033[1;31m'
