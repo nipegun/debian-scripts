@@ -9,7 +9,7 @@
 # Script de NiPeGun para re-escribir /etc/network/interfaceds con los nombres antiguos de las interfaces de red
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/InterfacesDeRed-LoopBackYeth0ConNombresViejos.sh
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/InterfacesDeRed-LoopBackYeth0ConNombresViejos.sh
 # ----------
 
 # Definir constantes de color
