@@ -9,7 +9,7 @@
 # Script de NiPeGun para instalar flatpak en Debian
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/FlatPak-Instalar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/FlatPak-Instalar.sh | bash
 # ----------
 
 # Definir constantes de color
