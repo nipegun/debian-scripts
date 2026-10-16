@@ -9,7 +9,7 @@
 # Script de NiPeGun para crear el archivo con las instrucciones de reparación de permisos del sistema
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Permisos-PrepararReparacion.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Permisos-PrepararReparacion.sh | bash
 # ----------
 
 # Definir constantes de color
