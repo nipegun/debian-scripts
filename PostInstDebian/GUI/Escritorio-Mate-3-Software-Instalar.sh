@@ -9,10 +9,10 @@
 # Script de NiPeGun para instalar software en el escritorio Mate de Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Mate-Software-3-Instalar.sh | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Mate-Software-3-Instalar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Mate-Software-3-Instalar.sh | sed 's-sudo--g' | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Mate-Software-3-Instalar.sh | sed 's-sudo--g' | bash
 # ----------
 
 # Definir constantes de color
@@ -58,7 +58,7 @@
       sudo apt-get -y update
 
     # Instalar herramientas de terminal
-      curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Software-CLI-Instalar.sh | bash
+      curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Software-CLI-Instalar.sh | bash
 
     # Ofimática y documentos
       sudo apt-get -y install libreoffice-help-es
