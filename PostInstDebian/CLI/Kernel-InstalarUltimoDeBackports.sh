@@ -9,7 +9,7 @@
 # Script de NiPeGun para instalar el último kernel disponible en backports
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/master/PostInst/CLI/Kernel-InstalarUltimoDeBackports.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/main/PostInst/CLI/Kernel-InstalarUltimoDeBackports.sh | bash
 # ----------
 
 RepoActual="bullseye"
