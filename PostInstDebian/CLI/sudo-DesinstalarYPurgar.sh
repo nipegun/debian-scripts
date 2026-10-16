@@ -9,10 +9,10 @@
 # Script de NiPeGun para desinstalar y purgar sudo de un sistema Debian
 #
 # Ejecución remota como root:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/sudo-DesinstalarYPurgar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/sudo-DesinstalarYPurgar.sh | bash
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/sudo-DesinstalarYPurgar.sh | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/sudo-DesinstalarYPurgar.sh | nano -
 #
 # NOTAS:
 #   Loguearse como root para ejecutar este script
