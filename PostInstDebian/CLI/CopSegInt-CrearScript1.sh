@@ -9,7 +9,7 @@
 # Script de NiPeGun para preparar Debian sin entorno gráfico a gusto de NiPeGun
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/CopSegInt-CrearScript.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/CopSegInt-CrearScript.sh | bash
 # ----------
 
 # Definir constantes de color
