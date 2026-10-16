@@ -9,10 +9,10 @@
 # Script de NiPeGun para personalizar el escritorio Mate al acabar de instalarlo
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Mate-2-Personalizar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Mate-2-Personalizar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Mate-2-Personalizar.sh | sed 's-sudo--g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Mate-2-Personalizar.sh | sed 's-sudo--g' | bash
 # ----------
 
 # Definir constantes de color
@@ -159,7 +159,7 @@
           sudo apt-get -y install curl
           echo ""
         fi
-      sudo curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/LightDMWallpaper.jpg --output /usr/share/pixmaps/LightDMWallpaper.jpg
+      sudo curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/LightDMWallpaper.jpg --output /usr/share/pixmaps/LightDMWallpaper.jpg
       sudo chmod 777 /usr/share/pixmaps/LightDMWallpaper.jpg
       sudo sed -i -e 's|#background=|#background=#000000\nbackground=/usr/share/pixmaps/LightDMWallpaper.jpg|g' /etc/lightdm/lightdm-gtk-greeter.conf
     # Cambiar la fuente
@@ -291,7 +291,7 @@
           sudo apt-get -y install curl
           echo ""
         fi
-      sudo curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/LightDMWallpaper.jpg --output /usr/share/pixmaps/LightDMWallpaper.jpg
+      sudo curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/LightDMWallpaper.jpg --output /usr/share/pixmaps/LightDMWallpaper.jpg
       sudo chmod 777 /usr/share/pixmaps/LightDMWallpaper.jpg
       sudo sed -i -e 's|#background=|#background=#000000\nbackground=/usr/share/pixmaps/LightDMWallpaper.jpg|g' /etc/lightdm/lightdm-gtk-greeter.conf
     # Cambiar la fuente
@@ -422,7 +422,7 @@
           apt-get -y install curl
           echo ""
         fi
-      curl --silent https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/LightDMWallpaper.jpg --output /usr/share/pixmaps/LightDMWallpaper.jpg
+      curl --silent https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/LightDMWallpaper.jpg --output /usr/share/pixmaps/LightDMWallpaper.jpg
       chmod 777 /usr/share/pixmaps/LightDMWallpaper.jpg
       sed -i -e 's|#background=|#background=#000000\nbackground=/usr/share/pixmaps/LightDMWallpaper.jpg|g' /etc/lightdm/lightdm-gtk-greeter.conf
     # Cambiar la fuente
