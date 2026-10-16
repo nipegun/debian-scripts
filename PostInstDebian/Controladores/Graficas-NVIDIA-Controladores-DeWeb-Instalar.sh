@@ -10,10 +10,10 @@
 # de forma que se pueda dar uso a los núcleos CUDA de la tarjeta gráfica
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Instalar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Instalar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Instalar.sh | sudo 's---g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Instalar.sh | sudo 's---g' | bash
 #
 # Para ver el número de la última versión disponible:
 #  https://www.nvidia.com/es-es/drivers/unix/
@@ -154,7 +154,7 @@ if [ $cVerSO == "13" ]; then
     nvidia-smi
 
   # Instalar CUDA Toolkit
-    #curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInst/Controladores/Graficas-NVIDIA-Controladores-CUDAToolkit-DeWeb-Instalar.sh | sudo bash
+    #curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInst/Controladores/Graficas-NVIDIA-Controladores-CUDAToolkit-DeWeb-Instalar.sh | sudo bash
 
 elif [ $cVerSO == "12" ]; then
 
@@ -207,7 +207,7 @@ elif [ $cVerSO == "12" ]; then
     nvidia-smi
 
   # Instalar CUDA Toolkit
-    #curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInst/Controladores/Graficas-NVIDIA-Controladores-CUDAToolkit-DeWeb-Instalar.sh | sudo bash
+    #curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInst/Controladores/Graficas-NVIDIA-Controladores-CUDAToolkit-DeWeb-Instalar.sh | sudo bash
 
 elif [ $cVerSO == "11" ]; then
 
