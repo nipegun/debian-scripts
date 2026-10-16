@@ -9,7 +9,7 @@
 # Script de NiPeGun para instalar el controlador de las gráficas AMD
 #
 # Ejecución remota:
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Grafica-AMD-Instalar.sh | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Grafica-AMD-Instalar.sh | bash
 # ----------
 
 cColorRojo='\033[1;31m'
