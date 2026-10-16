@@ -9,10 +9,10 @@
 # Script de NiPeGun para instalar firmware faltantes del módulo AMDGPU en Debian
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Firmwares-AMDGPU-Instalar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Firmwares-AMDGPU-Instalar.sh | bash
 #
 # Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Firmwares-AMDGPU-Instalar.sh | bash
+#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Firmwares-AMDGPU-Instalar.sh | bash
 # ----------
 
 # Definir constantes de color
