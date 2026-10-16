@@ -9,7 +9,7 @@
 # Script de NiPeGun para agregar el repositorio unstable a Debian
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Repositorio-Unstable-Agregar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Repositorio-Unstable-Agregar.sh | bash
 #
 # Para instalar un paquete desde backports:
 #   apt-get -y install -t unstable NombreDelPaquete
