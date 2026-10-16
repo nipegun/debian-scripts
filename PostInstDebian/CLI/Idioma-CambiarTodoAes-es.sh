@@ -9,7 +9,7 @@
 # Script de NiPeGun para cambiar el idioma del sistema y del teclado a sólo español
 #
 # Ejecución remota como root:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Idioma-CambiarTodoAes-es.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Idioma-CambiarTodoAes-es.sh | bash
 # ----------
 
 # Definir constantes de color
