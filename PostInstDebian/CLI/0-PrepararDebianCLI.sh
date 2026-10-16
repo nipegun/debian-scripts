@@ -9,7 +9,7 @@
 # Script de NiPeGun para preparar Debian sin entorno gráfico a gusto de NiPeGun
 #
 # Ejecución remota únicamente como root:
-#   curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/0-PrepararDebianCLI.sh | bash
+#   curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/0-PrepararDebianCLI.sh | bash
 # ----------
 
 # Definir constantes de color
@@ -31,26 +31,26 @@
   echo ""
 
 # Preparar ComandosPostArranque (rc.local)
-  curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/ComandosPostArranque-Preparar.sh | sed 's-sudo--g' | bash
+  curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/ComandosPostArranque-Preparar.sh | sed 's-sudo--g' | bash
 
 # Preparar tareas Cron
-  curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/TareasCron-Preparar.sh | sed 's-sudo--g' | bash
+  curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/TareasCron-Preparar.sh | sed 's-sudo--g' | bash
 
 # Preparar cortafuegos
-  #curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Cortafuegos-Preparar.sh | sed 's-sudo--g' | bash
+  #curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Cortafuegos-Preparar.sh | sed 's-sudo--g' | bash
 
 # Agregar idioma español
-  curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Idioma-CambiarTodoA-en-us-es-es.sh | sed 's-sudo--g' | bash
+  curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Idioma-CambiarTodoA-en-us-es-es.sh | sed 's-sudo--g' | bash
 
 # Poner todos los repositorios
-  curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Repositorios-Todos-Poner.sh | sed 's-sudo--g' | bash
+  curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Repositorios-Todos-Poner.sh | sed 's-sudo--g' | bash
 
 # Modificar .bashrc a nivel de sistema
-  curl -sLk https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/ModificarElBashRCPorDefecto.sh | sed 's-sudo--g' | bash
+  curl -sLk https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/ModificarElBashRCPorDefecto.sh | sed 's-sudo--g' | bash
 
-# Instalar d-scripts
+# Instalar debian-scripts
   apt-get -y update
   apt-get -y install curl
-  curl -s https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/DScripts-Sincronizar.sh | bash
-  sh -c "echo 'export PATH=$PATH:~/scripts/d-scripts/Alias/' >> ~/.bashrc"
+  curl -s https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/DScripts-Sincronizar.sh | bash
+  sh -c "echo 'export PATH=$PATH:~/scripts/debian-scripts/Alias/' >> ~/.bashrc"
 
