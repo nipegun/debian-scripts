@@ -10,7 +10,7 @@
 # dejando el sistema y el teclado en español de España
 #
 # Ejecución remota como root:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Idioma-CambiarTodoA-en-us-es-es.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Idioma-CambiarTodoA-en-us-es-es.sh | bash
 # ----------
 
 # Definir constantes de color
