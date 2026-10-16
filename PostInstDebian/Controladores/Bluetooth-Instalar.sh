@@ -9,7 +9,7 @@
 # Script de NiPeGun para instalar controladores bluetooth en Debian
 #
 #  Instalación remota:
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Bluetooth-Instalar.sh | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Bluetooth-Instalar.sh | bash
 # ----------
 
 cColorVerde="\033[1;32m"
