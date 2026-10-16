@@ -9,16 +9,16 @@
 # Script de NiPeGun para instalar y configurar los controladores de NVIDIA en Debian de forma que se pueda dar uso a los núcleos CUDA de la tarjeta gráfica
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeRepos-InstalarConCudaToolkit.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeRepos-InstalarConCudaToolkit.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeRepos-InstalarConCudaToolkit.sh | sudo 's---g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeRepos-InstalarConCudaToolkit.sh | sudo 's---g' | bash
 #
 # Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Controladores/Graficas-NVIDIA-Controladores-DeRepos-InstalarConCudaToolkit.sh | bash
+#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Controladores/Graficas-NVIDIA-Controladores-DeRepos-InstalarConCudaToolkit.sh | bash
 #
 # Ejecución remota con parámetros:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeRepos-InstalarConCudaToolkit.sh | bash -s Parámetro1 Parámetro2
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeRepos-InstalarConCudaToolkit.sh | bash -s Parámetro1 Parámetro2
 # ----------
 
 # Definir constantes de color
