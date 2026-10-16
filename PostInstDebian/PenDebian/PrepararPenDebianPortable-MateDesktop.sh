@@ -9,7 +9,7 @@
 # Script de NiPeGun para preparar el Pendrive de Debian Portable con el escritorio Mate
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/PenDebian/PrepararPenDebianPortable-MateDesktop.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/PenDebian/PrepararPenDebianPortable-MateDesktop.sh | bash
 # ----------
 
 cColorRojo='\033[1;31m'
@@ -93,13 +93,13 @@ elif [ $cVerSO == "12" ]; then
   echo ""
 
   # Poner nomenclatura antigua de nombre de interfaces de red
-    curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/InterfacesDeRed-ViejaNomenclatura.sh | bash
+    curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/InterfacesDeRed-ViejaNomenclatura.sh | bash
 
   # Agregar repositorios
-    curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Repositorios-PonerTodos.sh | bash
+    curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Repositorios-PonerTodos.sh | bash
 
   # Instalar software
-    curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Escritorio-Mate-InstalarSoftware.sh | bash
+    curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Escritorio-Mate-InstalarSoftware.sh | bash
   
   # Desinstalar software extra instalado
     apt-get -y autoremove subtitleeditor
@@ -177,19 +177,19 @@ elif [ $cVerSO == "12" ]; then
     mkdir -p /Particiones/LVM/G4/            2> /dev/null
 
   # ComandosPostArranque
-    curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/ComandosPostArranque-Preparar.sh | bash
+    curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/ComandosPostArranque-Preparar.sh | bash
 
   # Cortafuegos
-    curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Cortafuegos-Preparar.sh | bash
+    curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Cortafuegos-Preparar.sh | bash
 
   # Tareas cron
-    curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/TareasCron-Preparar.sh | bash
+    curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/TareasCron-Preparar.sh | bash
 
   # Agregar automontaje de particiones
     echo '# Automontaje de todas las particiones'               >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
-    echo "  /root/scripts/d-scripts/Particiones-IDE-Montar.sh"  >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
-    echo "  /root/scripts/d-scripts/Particiones-SATA-Montar.sh" >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
-    echo "  /root/scripts/d-scripts/Particiones-NVMe-Montar.sh" >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
+    echo "  /root/scripts/debian-scripts/Particiones-IDE-Montar.sh"  >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
+    echo "  /root/scripts/debian-scripts/Particiones-SATA-Montar.sh" >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
+    echo "  /root/scripts/debian-scripts/Particiones-NVMe-Montar.sh" >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
 
     echo "# Montar LVM de Proxmox"                                     >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
     echo '  vgchange --activate y pve'                                 >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
@@ -197,8 +197,8 @@ elif [ $cVerSO == "12" ]; then
     echo '  mount -t auto /dev/$vLVMg1/root /Particiones/LVM/G1/root/' >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
     echo '  mount -t auto /dev/$vLVMg1/root /Particiones/LVM/G1/root/' >> /root/scripts/ParaEsteDebian/ComandosPostArranque.sh
 
-  # d-scripts
-    curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/master/DScripts-Sincronizar.sh | bash
+  # debian-scripts
+    curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/main/DScripts-Sincronizar.sh | bash
 
   # Permitir caja como root
     mkdir -p /root/.config/autostart/ 2> /dev/null
@@ -252,7 +252,7 @@ elif [ $cVerSO == "12" ]; then
     apt-get -y dist-upgrade
 
   # Personalizar escritorio mate
-    curl -sLhttps://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/EscritorioMate-Personalizar.sh| bash
+    curl -sLhttps://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/EscritorioMate-Personalizar.sh| bash
 
   # Agregar el usuario a sudo
     echo "usuariox ALL=(ALL:ALL) ALL" >> /etc/sudoers
