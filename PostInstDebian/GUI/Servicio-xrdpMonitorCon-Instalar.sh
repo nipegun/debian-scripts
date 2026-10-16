@@ -9,10 +9,10 @@
 # Servicio de NiPeGun para monitorizar las conexiones xrdp
 #
 # Ejecución remota (puewde requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Servicio-xrdpMonitorCon-Instalar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Servicio-xrdpMonitorCon-Instalar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/GUI/Servicio-xrdpMonitorCon-Instalar.sh | sed 's-sudo--g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/GUI/Servicio-xrdpMonitorCon-Instalar.sh | sed 's-sudo--g' | bash
 # ----------
 
 # Definir constantes de color
@@ -59,7 +59,7 @@
       echo ""                                                                                        | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "[Service]"                                                                               | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "Type=simple"                                                                             | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
-      echo "ExecStart=/bin/bash /root/scripts/d-scripts/ParaSoftware/xrdp-Conexiones-Monitorizar.sh" | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
+      echo "ExecStart=/bin/bash /root/scripts/debian-scripts/ParaSoftware/xrdp-Conexiones-Monitorizar.sh" | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "TimeoutStartSec=0"                                                                       | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "StartLimitInterval=0"                                                                    | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "Restart=always"                                                                          | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
@@ -86,7 +86,7 @@
       echo ""                                                                                        | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "[Service]"                                                                               | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "Type=simple"                                                                             | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
-      echo "ExecStart=/bin/bash /root/scripts/d-scripts/ParaSoftware/xrdp-Conexiones-Monitorizar.sh" | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
+      echo "ExecStart=/bin/bash /root/scripts/debian-scripts/ParaSoftware/xrdp-Conexiones-Monitorizar.sh" | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "TimeoutStartSec=0"                                                                       | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "StartLimitInterval=0"                                                                    | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
       echo "Restart=always"                                                                          | sudo tee -a /etc/systemd/system/xrdpMonitorCon.service
