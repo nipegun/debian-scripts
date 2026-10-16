@@ -9,7 +9,7 @@
 # Script de NiPeGun para poner los nombres de las interfaces de red a la nomenclatura usada en Debian 8
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/InterfacesDeRed-ViejaNomenclatura.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/InterfacesDeRed-ViejaNomenclatura.sh | bash
 # ----------
 
 # Definir constantes de color
