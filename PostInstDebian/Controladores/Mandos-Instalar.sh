@@ -9,7 +9,7 @@
 # Script de NiPeGun para instalar controladores de mandos de juegos en Debian
 #
 # Ejecución remota:
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/Controladores/Mandos-Instalar.sh | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Mandos-Instalar.sh | bash
 # ----------
 
 cColorVerde="\033[1;32m"
