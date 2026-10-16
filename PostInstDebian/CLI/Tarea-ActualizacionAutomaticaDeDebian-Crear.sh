@@ -9,7 +9,7 @@
 # Script de NiPeGun para crear la tarea cron de actualización y reinicio cada lunes a las 05:30 de la mañana
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/PostInstDebian/CLI/Tarea-ActualizacionAutomaticaDeDebian-Crear.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/CLI/Tarea-ActualizacionAutomaticaDeDebian-Crear.sh | bash
 # ----------
 
 # Definir constantes de color
@@ -34,7 +34,7 @@
   crontab -l > /root/CronTemporal
 
 # Cargar la nueva tarea dentro del CronTemporal
-  echo "30 05 * * 1 /root/scripts/d-scripts/Sistema/SistemaOperativo-ActualizarYReiniciar.sh" >> /root/CronTemporal
+  echo "30 05 * * 1 /root/scripts/debian-scripts/Sistema/SistemaOperativo-ActualizarYReiniciar.sh" >> /root/CronTemporal
 
 #      *  * * * * "Comando a ejecutar"
 #      -  - - - -
