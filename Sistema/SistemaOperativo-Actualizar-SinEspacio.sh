@@ -9,72 +9,116 @@
 # Script de NiPeGun para actualizar Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/main/SistemaOperativo-Actualizar-SinEspacio.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/main/SistemaOperativo-Actualizar-SinEspacio.sh | sudo bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/main/SistemaOperativo-Actualizar-SinEspacio.sh | sed 's-sudo--g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/main/SistemaOperativo-Actualizar-SinEspacio.sh | bash
 #
 # ----------
 
-# Definir constantes de color
-  cColorAzul="\033[0;34m"
-  cColorAzulClaro="\033[1;34m"
-  cColorVerde='\033[1;32m'
-  cColorRojo='\033[1;31m'
-  # Para el color rojo también:
-    #echo "$(tput setaf 1)Mensaje en color rojo. $(tput sgr 0)"
-  cFinColor='\033[0m'
+# .
+  if ! fRestaurarMarcaAutomatica "$vPaquete"; then
+        vErroresAuxiliares=1
+        echo -e "${cColorRojo}    No se pudo restaurar la marca automática de ${vPaquete}.${cFinColor}"
+      fi
 
-# Comprobar si el script está corriendo como root
-  if [ $(id -u) -ne 0 ]; then
-    echo ""
-    echo -e "${cColorRojo}  Este script está preparado para ejecutarse como root y no lo has ejecutado como root...${cFinColor}"
-    echo ""
-    exit
-  fi
+      if ! fLimpiarCache; then
+        vErroresAuxiliares=1
+        echo -e "${cColorRojo}    No se pudo limpiar completamente la caché de APT.${cFinColor}"
+      fi
+    done
+  }
 
 # Indicar inicio de ejecución del script
   echo ""
   echo -e "${cColorAzulClaro}  Iniciando el script de actualización del sistema operativo...${cFinColor}"
   echo ""
 
-# Reparar permisos de /tmp
+# Reparar los permisos de /tmp (sin modificar su contenido)
   echo ""
   echo "    Reparando permisos de la carpeta /tmp/ ..."
   echo ""
-  chmod 1777 /tmp -R
+  chmod 1777 /tmp || exit 1
 
 # Actualizar lista de paquetes disponibles en los repositorios
   echo ""
   echo "    Actualizando lista de paquetes disponibles en los repositorios..."
   echo ""
-  rm -rf /var/lib/apt/lists/*
-  apt-get clean
-  apt-get update
+  rm -rf /var/lib/apt/lists/* || exit 1
+  apt-get clean || exit 1
+  apt-get update || exit 1
 
-# Ejecutar upgrade
-  echo ""
-  echo "    Ejecutando apt-get -y upgrade..."
-  echo ""
-  apt-get -y --allow-downgrades upgrade
+# Guardar los paquetes automáticos para no convertirlos en manuales con install
+  declare -A dPaquetesAutomaticos=()
+  if ! vListadoAutomaticos="$(apt-mark showauto)"; then
+    echo -e "${cColorRojo}    No se pudieron obtener las marcas de instalación automática.${cFinColor}"
+    exit 1
+  fi
+  while IFS= read -r vPaquete; do
+    if [ -n "$vPaquete" ]; then
+      dPaquetesAutomaticos["$vPaquete"]=1
+    fi
+  done < <(echo "$vListadoAutomaticos")
 
-# Ejecutar dist-upgrade
-  echo ""
-  echo "    Ejecutando apt-get -y dist-upgrade..."
-  echo ""
-  apt-get -y --allow-downgrades dist-upgrade
+  aPaquetesActualizables=()
+  vErroresAuxiliares=0
+
+# Ejecutar upgrade, paquete por paquete
+  fEjecutarFase "upgrade" || exit 1
+
+# Ejecutar dist-upgrade, paquete por paquete
+  fEjecutarFase "dist-upgrade" || exit 1
 
 # Borrar paquetes sobrantes innecesarios
   echo ""
   echo "    Ejecutando apt-get -y autoremove..."
   echo ""
-  apt-get -y autoremove
+  if ! apt-get -y autoremove; then
+    vErroresAuxiliares=1
+  fi
 
-# Borrar la cache de paquetes
+# Borrar la caché de paquetes
   echo ""
-  echo "    Ejecutando apt-get -y autoclean..."
+  echo "    Ejecutando la limpieza final de la caché de APT..."
   echo ""
-  apt-get -y autoclean
+  if ! fLimpiarCache; then
+    vErroresAuxiliares=1
+  fi
+
+# Comprobar si todavía quedan paquetes pendientes
+  if ! fObtenerPaquetesActualizables; then
+    echo -e "${cColorRojo}    No se pudo comprobar el estado final de las actualizaciones.${cFinColor}"
+    exit 1
+  fi
+
+  if [ "${#aPaquetesActualizables[@]}" -gt 0 ]; then
+    echo ""
+    echo -e "${cColorRojo}    Quedan ${#aPaquetesActualizables[@]} paquetes pendientes de actualizar:${cFinColor}"
+    for vPaquete in "${aPaquetesActualizables[@]}"; do
+      echo "      - $vPaquete"
+    done
+    echo ""
+    exit 1
+  fi
+
+# Verificar que no quedan operaciones pendientes en un dist-upgrade global simulado
+  if ! vSimulacionDistUpgrade="$(LC_ALL=C apt-get -s dist-upgrade)"; then
+    echo -e "${cColorRojo}    No se pudo comprobar la simulación final de dist-upgrade.${cFinColor}"
+    exit 1
+  fi
+
+  if echo "$vSimulacionDistUpgrade" | grep -Eq '^(Inst|Remv|Conf) '; then
+    echo ""
+    echo -e "${cColorRojo}    APT todavía propone operaciones que no se pudieron completar individualmente:${cFinColor}"
+    echo "$vSimulacionDistUpgrade" | sed -n '/^Inst /p; /^Remv /p; /^Conf /p'
+    echo ""
+    exit 1
+  fi
+
+  if [ "$vErroresAuxiliares" -ne 0 ]; then
+    echo -e "${cColorRojo}    La actualización terminó con errores auxiliares.${cFinColor}"
+    exit 1
+  fi
 
 # Notificar fin de ejecución del script
   echo ""
