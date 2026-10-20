@@ -13,7 +13,7 @@
 #   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Instalar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Instalar.sh | sudo 's---g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Instalar.sh | sudo 's-sudo--g' | bash
 #
 # Para ver el número de la última versión disponible:
 #  https://www.nvidia.com/es-es/drivers/unix/
