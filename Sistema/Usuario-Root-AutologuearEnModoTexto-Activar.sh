@@ -14,7 +14,7 @@
 # - Contenedores de sistema con systemd, incluido systemd-nspawn.
 #
 # Ejecución remota:
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/Sistema/Usuario-Root-AutologuearEnModoTexto-Activar.sh | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/Sistema/Usuario-Root-AutologuearEnModoTexto-Activar.sh | bash
 # ----------
 
 set -Eeuo pipefail
