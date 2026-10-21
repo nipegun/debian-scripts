@@ -8,8 +8,10 @@
 # ----------
 # Script de NiPeGun para limpiar Codex en Debian
 #
-# Ejecución remota:
+# Ejecución remota (puede requerir permisos sudo):
 #   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/ParaSoftware/Codex-Limpiar.sh | bash
+# Ejecución remota como root (para sistemas sin sudo):
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/ParaSoftware/Codex-Limpiar.sh | sed 's-sudo--g' | bash
 #
 # Bajar y editar directamente el archivo en nano
 #   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/ParaSoftware/Codex-Limpiar.sh | nano -
@@ -132,6 +134,7 @@
   echo ""
   echo "  Actualizando Codex a la última versión..."
   echo ""
+  sudo apt-get -y update && sudo apt-get -y install npm
   sudo npm install -g @openai/codex
 
 # Listar los archivos remanentes de la carpeta
