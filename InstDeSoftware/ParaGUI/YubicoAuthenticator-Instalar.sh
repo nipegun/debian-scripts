@@ -72,7 +72,7 @@
 
     # Descomprimir
       echo ""
-      echo "  Descomprimiendo a su ubicación final"
+      echo "  Descomprimiendo a su ubicación final..."
       echo ""
       rm -rf ~/AppsPortables/YubicoAuthenticator/ 2> /dev/null
       mkdir -p ~/AppsPortables/YubicoAuthenticator/ 2> /dev/null
@@ -80,7 +80,7 @@
 
     # Notificar fin de ejecución del script
       echo ""
-      echo "  La aplicación Yubico Authenticator se instaló correctamente."
+      echo "  La aplicación Yubico Authenticator se instaló en ~/AppsPortables/YubicoAuthenticator."
       echo ""
 
   elif [ $cVerSO == "12" ]; then
