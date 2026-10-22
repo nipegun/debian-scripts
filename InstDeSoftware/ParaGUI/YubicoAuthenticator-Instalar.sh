@@ -9,19 +9,13 @@
 # Script de NiPeGun para instalar y configurar Yubico Authenticator en Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL x | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/InstDeSoftware/ParaGUI/YubicoAuthenticator-Instalar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL x | sed 's-sudo--g' | bash
-#
-# Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' x | bash
-#
-# Ejecución remota con parámetros:
-#   curl -sL x | bash -s Parámetro1 Parámetro2
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/InstDeSoftware/ParaGUI/YubicoAuthenticator-Instalar.sh | sed 's-sudo--g' | bash
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL x | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/InstDeSoftware/ParaGUI/YubicoAuthenticator-Instalar.sh | nano -
 # ----------
 
 # Definir constantes de color
@@ -65,6 +59,15 @@
       echo ""
       echo "  Descargando el archivo comprimido de la última versión..."
       echo ""
+      # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
+        if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
+          echo ""
+          echo -e "${cColorRojo}  El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
+          echo ""
+          sudo apt-get -y update
+          sudo apt-get -y install curl
+          echo ""
+        fi
       curl -L https://developers.yubico.com/yubioath-flutter/Releases/yubico-authenticator-latest-linux.tar.gz -o /tmp/yubico-authenticator.tar.gz
 
     # Descomprimir
