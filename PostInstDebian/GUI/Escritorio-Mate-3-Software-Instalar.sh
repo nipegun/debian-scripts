@@ -182,8 +182,11 @@
 
     # SmartCards
       sudo apt-get -y install pcscd
+      sudo apt-get -y install pcsc-tools     # Incluye gscriptor, que es una interfaz gráfica para comunicarnos directamente con las tarjetas inteligentes mediante comandos APDU. Es especialmente útil para pruebas, desarrollo y análisis de tarjetas ISO 7816.
       sudo apt-get -y install opensc-pkcs11 
       sudo apt-get -y install libpam-pkcs11
+      sudo apt-get -y install cardpeek       # Permite examinar el contenido de tarjetas ISO 7816 mediante una interfaz GTK organizada en forma de árbol. Reconoce diversos formatos, especialmente tarjetas EMV, SIM y algunas tarjetas de transporte. Es extensible mediante scripts Lua.
+
 
     # Huellas dactilares
       #sudo apt-get -y install libpam-fprintd
