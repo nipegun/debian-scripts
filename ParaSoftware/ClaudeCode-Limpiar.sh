@@ -28,6 +28,7 @@
       "daemon"
       "debug"
       "downloads"
+      "feedback"
       "file-history"
       "ide"
       "jobs"
