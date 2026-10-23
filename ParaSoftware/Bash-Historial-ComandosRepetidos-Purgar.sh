@@ -9,7 +9,7 @@
 # Script de NiPeGun para eliminar líneas repetidas de .bash_history manteniendo el orden de ejecución
 #
 # Ejecución remota:
-#  curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/ParaSoftware/Bash-Historial-ComandosRepetidos-Purgar.sh | bash
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/ParaSoftware/Bash-Historial-ComandosRepetidos-Purgar.sh | bash
 # ----------
 
 set -euo pipefail
