@@ -71,6 +71,7 @@
 
   # Definir el array con el nombre de los archivos a borrar
     aArchivosABorrar=(
+      ".codex-global-state.json.bak"
       "config.toml"
       "goals_1.sqlite"
       "goals_1.sqlite-shm"
