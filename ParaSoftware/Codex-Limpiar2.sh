@@ -57,7 +57,18 @@
   echo ""
   echo "  Intentando terminar todos los posibles procesos activos de codex..."
   echo ""
-  ps -aux | grep .codex | grep -v grep | awk '{print $2}' | xargs -t kill 2> /dev/null
+  # Proceso principal de la app de escritorio y todos sus hijos (si no se mata, relanza el app-server)
+    pkill -TERM -f '^/usr/lib/chatgpt/' 2> /dev/null
+  # CLI de codex instalado con npm
+    ps -aux | grep .codex | grep -v grep | awk '{print $2}' | xargs -r -t kill 2> /dev/null
+  # Esperar a que terminen de verdad (máximo 10 segundos) y, si no, matarlos a la fuerza
+    for i in $(seq 10); do
+      pgrep -f '^/usr/lib/chatgpt/' > /dev/null || break
+      sleep 1
+    done
+    pkill -KILL -f '^/usr/lib/chatgpt/' 2> /dev/null
+    sleep 1
+
 
   # Ejecutar el bucle de borrado
     for vCarpeta in "${aCarpetasABorrar[@]}"; do
@@ -72,6 +83,9 @@
   # Definir el array con el nombre de los archivos a borrar
     aArchivosABorrar=(
       ".codex-global-state.json.bak"
+      ".personality_migration"
+      ".sandbox_migration"
+      ".sqlite-maintenance.lock"
       "config.toml"
       "goals_1.sqlite"
       "goals_1.sqlite-shm"
@@ -97,10 +111,6 @@
       "thread_history_1.sqlite-wal"
       "transcription-history.jsonl"
       "version.json"
-      ".codex-global-state.json.bak"
-      ".personality_migration"
-      ".sandbox_migration"
-      ".sqlite-maintenance.lock"
     )
 
   # Ejecutar el bucle de borrado
