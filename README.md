@@ -6,7 +6,17 @@ Si bien están pensados para ser ejecutados en Debian es probable que puedan ser
 
 ## INSTALACIÓN
 
-Para instalar los d-scripts en la ubicación aconsejada sigue las instrucciones de este artículo: http://hacks4geeks.com/debian-scripts
+Para instalar como root:
+
+```
+curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/DebianScripts-Sincronizar.sh | bash
+```
+
+Para instalar como uisuario normal
+
+```
+curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/DebianScripts-Sincronizar-EnHome.sh | bash
+```
 
 ## ACLARACIÓN!!
 Los scripts de dentro de las carpetas "PostInstDebian" y "InstDeSoftware" están diseñados (por ahora) para ser ejecutados una ÚNICA vez. Si la ejecución falla o es interrumpida, NO se debería volver a ejecutar el mismo script y habría que recurrir a una revisión manual de lo que pudo haber fallado y de las cosas que podrían haber sido modificadas de forma errónea, para corregirlas. En esos casos aconsejo la re-instalación de Debian, la posterior re-sincronización con este repositorio y la re-ejecución del paquete que pudo haber fallado.
