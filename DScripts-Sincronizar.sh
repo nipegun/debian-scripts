@@ -9,7 +9,7 @@
 # Script de NiPeGun para sincronizar los debian-scripts
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/DScripts-Sincronizar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/DebianScripts-Sincronizar.sh | bash
 # ----------
 
 # Definir constantes de color
@@ -58,7 +58,7 @@
       echo ""
     # Crear los alias
       mkdir -p ~/scripts/debian-scripts/Alias/
-      ~/scripts/debian-scripts/DScripts-CrearAlias.sh
+      ~/scripts/debian-scripts/DebianScripts-CrearAlias.sh
       find ~/scripts/debian-scripts/Alias -type f -exec chmod +x {} \;
   else
     echo ""
