@@ -51,7 +51,7 @@ ln -s ~/scripts/debian-scripts/Sistema/CambiarNombreDeUsuario.sh                
 ln -s ~/scripts/debian-scripts/Sistema/CompilarEInstalarElÚltimoKernelEstable.sh            ~/scripts/debian-scripts/Alias/ceieuke
 ln -s ~/scripts/debian-scripts/Sistema/ComprobarSSD.sh                                      ~/scripts/debian-scripts/Alias/cssd
 ln -s ~/scripts/debian-scripts/Sistema/DejarSóloElKernelMásReciente.sh                      ~/scripts/debian-scripts/Alias/dsekmr
-ln -s ~/scripts/debian-scripts/DScripts-Sincronizar.sh                              ~/scripts/debian-scripts/Alias/sinds
+ln -s ~/scripts/debian-scripts/DebianScripts-Sincronizar.sh                              ~/scripts/debian-scripts/Alias/sinds
 ln -s ~/scripts/debian-scripts/Sistema/EjecutarComo.sh                                      ~/scripts/debian-scripts/Alias/ec
 ln -s ~/scripts/debian-scripts/ExtraerSubtítuloDeMKV.sh                             ~/scripts/debian-scripts/Alias/esdmkv
 ln -s ~/scripts/debian-scripts/Sistema/MostrarFrecuenciaCPU.sh                              ~/scripts/debian-scripts/Alias/mfcpu
