@@ -63,6 +63,9 @@ if [ $cVerSO == "13" ]; then
   # OpenCL
     apt-get -y install mesa-opencl-icd
 
+  # SMI
+    apt-get -y install amd-smi
+
 elif [ $cVerSO == "12" ]; then
 
   echo ""
