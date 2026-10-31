@@ -61,7 +61,33 @@
     echo -e "${cColorAzulClaro}  Iniciando el script de instalación de modsecurity2 para apache2 en Debian 13 (x)...${cFinColor}"
     echo ""
 
-apt-get install libapache2-mod-security2 modsecurity-crs
+    # Actualizar la lista de paquetes disponibles en los repositorios
+      sudo apt-get -y update
+
+    # Instalar paquetes
+      sudo apt-get -y install libapache2-mod-security2
+      sudo apt-get -y install modsecurity-crs
+
+    # Activar mod_unique_id para que ModSecurity 2 inspeccione cosas
+      sudo a2enmod security2 unique_id
+
+    # Activar la configuración recomendada
+      sudo cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
+
+    # Activar los bloqueos
+      sudo sed -i 's/^SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf
+
+    # Comprobar la configuración y recargar Apache
+      echo ""
+      echo "  Comprobando la configuración..."
+      echo ""
+      sudo apache2ctl configtest && systemctl reload apache2
+      sudo apache2ctl -M | grep -E 'security2|unique_id'
+
+    # Probar que funciona
+      curl -s -o /dev/null -w '%{http_code}\n' "http://localhost/?id=1%27%20OR%20%271%27=%271"
+      # Con SecRuleEngine en on debería devolver un 403.
+      # Con SecRuleEngine en DetectionOnly devería devolver 200, pero el ataque se registra en /var/log/apache2/error.log y en /var/log/apache2/modsec_audit.log.
 
   elif [ $cVerSO == "12" ]; then
 
