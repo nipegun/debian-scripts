@@ -71,23 +71,36 @@
     # Activar mod_unique_id para que ModSecurity 2 inspeccione cosas
       sudo a2enmod security2 unique_id
 
-    # Activar la configuración recomendada
-      sudo cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
+    # Activar la configuración recomendada (sólo la primera vez, para no pisar ajustes posteriores)
+      if [ ! -f /etc/modsecurity/modsecurity.conf ]; then
+        sudo cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
+        # No inspeccionar el HTML de las respuestas (evita falsos positivos como el del escritorio de WordPress)
+          sudo sed -i 's/^SecResponseBodyAccess On/SecResponseBodyAccess Off/' /etc/modsecurity/modsecurity.conf
+      fi
+      # SecRuleEngine se queda en DetectionOnly: registra sin bloquear
 
-    # Activar los bloqueos
-      sudo sed -i 's/^SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf
+    # Ajustes locales de CRS: exclusiones de WordPress y permitir la cabecera Accept-Charset
+      vHeaders=$(grep -o "tx.restricted_headers=[^']*" /usr/share/modsecurity-crs/rules/REQUEST-901-INITIALIZATION.conf | head -n 1 | sed -e 's#^tx.restricted_headers=##' -e 's#/accept-charset/##' -e 's/  */ /g' -e 's/^ //' -e 's/ $//')
+      if [ -n "$vHeaders" ]; then
+        echo 'SecAction "id:900130,phase:1,nolog,pass,t:none,setvar:tx.crs_exclusions_wordpress=1"'       | sudo tee    /etc/modsecurity/crs-local.conf > /dev/null
+        echo "SecAction \"id:900250,phase:1,nolog,pass,t:none,setvar:'tx.restricted_headers=$vHeaders'\"" | sudo tee -a /etc/modsecurity/crs-local.conf > /dev/null
+      else
+        echo -e "${cColorRojo}    No se encontró la lista de cabeceras prohibidas de CRS. No se creó /etc/modsecurity/crs-local.conf.${cFinColor}"
+      fi
 
     # Comprobar la configuración y recargar Apache
       echo ""
       echo "  Comprobando la configuración..."
       echo ""
-      sudo apache2ctl configtest && systemctl reload apache2
+      sudo apache2ctl configtest && sudo systemctl reload apache2
       sudo apache2ctl -M | grep -E 'security2|unique_id'
 
-    # Probar que funciona
-      curl -s -o /dev/null -w '%{http_code}\n' "http://localhost/?id=1%27%20OR%20%271%27=%271"
-      # Con SecRuleEngine en on debería devolver un 403.
-      # Con SecRuleEngine en DetectionOnly devería devolver 200, pero el ataque se registra en /var/log/apache2/error.log y en /var/log/apache2/modsec_audit.log.
+    # Notificar cómo seguir
+      echo ""
+      echo "  ModSecurity está en DetectionOnly: registra lo que detecta, pero no bloquea."
+      echo "  Revisa durante unos días las líneas 'ModSecurity:' de los ErrorLog de cada web y, cuando sólo salgan ataques, activa el bloqueo con:"
+      echo "    sed -i 's/^SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf && systemctl reload apache2"
+      echo ""
 
   elif [ $cVerSO == "12" ]; then
 
