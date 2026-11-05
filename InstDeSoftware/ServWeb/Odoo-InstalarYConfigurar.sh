@@ -94,7 +94,7 @@
           echo ""
         fi
       wget -q -O - https://nightly.odoo.com/odoo.key | sudo gpg --dearmor -o /usr/share/keyrings/odoo-archive-keyring.gpg
-      echo 'deb [signed-by=/usr/share/keyrings/odoo-archive-keyring.gpg] https://nightly.odoo.com/19.0/nightly/deb/ ./' | sudo tee /etc/apt/sources.list.d/odoo.list
+      echo 'deb [signed-by=/usr/share/keyrings/odoo-archive-keyring.gpg] https://nightly.odoo.com/20.0/nightly/deb/ ./' | sudo tee /etc/apt/sources.list.d/odoo.list
       sudo apt-get -y update
 
     # Corregir error de dependencia del paquete python3-pypdf2
