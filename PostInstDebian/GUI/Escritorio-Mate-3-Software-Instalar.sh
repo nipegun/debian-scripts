@@ -95,6 +95,7 @@
         sudo apt-get -y install dosfstools
         sudo apt-get -y install mtools
       sudo apt-get -y install hardinfo
+        sudo usermod -aG hardinfo2 $USER
       sudo apt-get -y install bleachbit
 
     # Apps de seguridad
