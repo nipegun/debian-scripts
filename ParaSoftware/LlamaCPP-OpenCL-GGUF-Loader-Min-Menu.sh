@@ -8,18 +8,29 @@
 # ----------
 # Script de NiPeGun para lanzar desde un menú modelos GGUF de bajo footprint de memoria
 #
-# Ejecución remota:
-#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/master/ParaSoftware/LlamaCPP-OpenCL-Menu-Loader-LLM-Min.sh | bash
+# Ejecución remota (puede requerir permisos sudo):
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/ParaSoftware/LlamaCPP-OpenCL-GGUF-Loader-Min-Menu.sh | bash
+#
+# Ejecución remota como root (para sistemas sin sudo):
+#  curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/ParaSoftware/LlamaCPP-OpenCL-GGUF-Loader-Min-Menu.sh | sed 's-sudo--g'| bash
 # ----------
 
-
+# ----------
+#
 # --batch-size 2048      : Determina cuántos tokens puede agrupar llama.cpp en una operación de procesamiento.
 # --ubatch-size 1024     : Determina cuántos tokens procesa realmente el motor de inferencia en cada sublote.
 # --spec-draft-n-max 2   : Permite generar hasta 2 tokens especulativos.
 # --spec-draft-p-min 0.7 : Detiene la predicción especulativa cuando la probabilidad estimada baja del 70%. Puede evitar cálculos inútiles y mejorar la velocidad, especialmente cuando generamos código con fragmentos repetidos.
-
+#
 # --cache-prompt         : Reutiliza tokens del prompt ya procesados, evitando recalcularlos.
 # --cache-ram 8192       : Permite almacenar estados de prompts en la RAM del sistema para reutilizarlos posteriormente.
+#
+# ----------
+
+vDispositivo='OpenCL0'
+vContexto='16384'
+vRazonamiento='1024'
+vCantMaxTokMTP='2'
 
 # Crear el menú
   # Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
@@ -65,203 +76,311 @@
             1)
 
               echo ""
-              echo "  Cargando Qwen3.5-0.8B-MTP-Abliterated-Q4_K_M..."
+              echo "  Cargando Qwen3.5-0.8B-MTP-Abliterated-Q4_K_M.gguf..."
               echo ""
               # Lanzar el servidor
                 ~/IA/Apps/llama.cpp-opencl/llama-server \
                                                         \
-                --temp 1.0                              \
-                --top-p 0.95                            \
-                --top-k 20                              \
-                --min-p 0.0                             \
-                --presence-penalty 1.5                  \
-                --repeat-penalty 1.0                    \
+                  --temp 1.0                            \
+                  --top-p 0.95                          \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 1.5                \
+                  --repeat-penalty 1.0                  \
                                                         \
-                --ctx-size 16384                        \
-                --reasoning-budget 1024                 \
-                --reasoning off                         \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
                                                         \
-                --cache-type-k q8_0                     \
-                --cache-type-v q8_0                     \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
                                                         \
-                --parallel 1                            \
-                --ubatch-size 1024                      \
-                --batch-size 2048                       \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
                                                         \
-                --spec-type draft-mtp                   \
-                --spec-draft-n-max 2                    \
-                --spec-draft-p-min 0.7                  \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
                                                         \
-                --flash-attn on                         \
-                --cache-prompt                          \
-                --cache-ram 8192                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
                                                         \
-                --device "$vDevice"                     \
-                --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q4_K_M.gguf
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q4_K_M.gguf
 
             ;;
 
             2)
 
               echo ""
-              echo "  Cargando Qwen3.5-0.8B-MTP-Abliterated-Q5_K_M..."
+              echo "  Cargando Qwen3.5-0.8B-MTP-Abliterated-Q5_K_M.gguf..."
               echo ""
               # Lanzar el servidor
                 ~/IA/Apps/llama.cpp-opencl/llama-server \
                                                         \
-                --temp 1.0                              \
-                --top-p 0.95                            \
-                --top-k 20                              \
-                --min-p 0.0                             \
-                --presence-penalty 1.5                  \
-                --repeat-penalty 1.0                    \
+                  --temp 1.0                            \
+                  --top-p 0.95                          \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 1.5                \
+                  --repeat-penalty 1.0                  \
                                                         \
-                --ctx-size 16384                        \
-                --reasoning-budget 1024                 \
-                --reasoning off                         \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
                                                         \
-                --cache-type-k q8_0                     \
-                --cache-type-v q8_0                     \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
                                                         \
-                --parallel 1                            \
-                --ubatch-size 1024                      \
-                --batch-size 2048                       \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
                                                         \
-                --spec-type draft-mtp                   \
-                --spec-draft-n-max 2                    \
-                --spec-draft-p-min 0.7                  \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
                                                         \
-                --flash-attn on                         \
-                --cache-prompt                          \
-                --cache-ram 8192                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
                                                         \
-                --device "$vDevice"                     \
-                --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q5_K_M.gguf
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q5_K_M.gguf
 
             ;;
 
             3)
 
               echo ""
-              echo "  Cargando Qwen3.5-0.8B-MTP-Abliterated-Q6_K..."
+              echo "  Cargando Qwen3.5-0.8B-MTP-Abliterated-Q6_K.gguf..."
               echo ""
               # Lanzar el servidor
                 ~/IA/Apps/llama.cpp-opencl/llama-server \
                                                         \
-                --temp 1.0                              \
-                --top-p 0.95                            \
-                --top-k 20                              \
-                --min-p 0.0                             \
-                --presence-penalty 1.5                  \
-                --repeat-penalty 1.0                    \
+                  --temp 1.0                            \
+                  --top-p 0.95                          \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 1.5                \
+                  --repeat-penalty 1.0                  \
                                                         \
-                --ctx-size 16384                        \
-                --reasoning-budget 1024                 \
-                --reasoning off                         \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
                                                         \
-                --cache-type-k q8_0                     \
-                --cache-type-v q8_0                     \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
                                                         \
-                --parallel 1                            \
-                --ubatch-size 1024                      \
-                --batch-size 2048                       \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
                                                         \
-                --spec-type draft-mtp                   \
-                --spec-draft-n-max 2                    \
-                --spec-draft-p-min 0.7                  \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
                                                         \
-                --flash-attn on                         \
-                --cache-prompt                          \
-                --cache-ram 8192                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
                                                         \
-                --device "$vDevice"                     \
-                --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q6_K.gguf
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q6_K.gguf
 
             ;;
 
             4)
 
               echo ""
-              echo "  Cargando Qwen3.5-0.8B-MTP-Abliterated-Q8_0..."
+              echo "  Cargando Qwen3.5-0.8B-MTP-Abliterated-Q8_0.gguf..."
               echo ""
               # Lanzar el servidor
                 ~/IA/Apps/llama.cpp-opencl/llama-server \
                                                         \
-                --temp 1.0                              \
-                --top-p 0.95                            \
-                --top-k 20                              \
-                --min-p 0.0                             \
-                --presence-penalty 1.5                  \
-                --repeat-penalty 1.0                    \
+                  --temp 1.0                            \
+                  --top-p 0.95                          \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 1.5                \
+                  --repeat-penalty 1.0                  \
                                                         \
-                --ctx-size 16384                        \
-                --reasoning-budget 1024                 \
-                --reasoning off                         \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
                                                         \
-                --cache-type-k q8_0                     \
-                --cache-type-v q8_0                     \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
                                                         \
-                --parallel 1                            \
-                --ubatch-size 1024                      \
-                --batch-size 2048                       \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
                                                         \
-                --spec-type draft-mtp                   \
-                --spec-draft-n-max 2                    \
-                --spec-draft-p-min 0.7                  \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
                                                         \
-                --flash-attn on                         \
-                --cache-prompt                          \
-                --cache-ram 8192                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
                                                         \
-                --device "$vDevice"                     \
-                --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q8_0.gguf
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q8_0.gguf
 
             ;;
 
             5)
 
               echo ""
-              echo "  Cargando Qwen3.5-2B-MTP-Abliterated-Q4_K_M..."
+              echo "  Cargando Qwen3.5-2B-MTP-Abliterated-Q4_K_M.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 1.0                           \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 2.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
+                                                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-2B-MTP-Abliterated-Q4_K_M.gguf
 
             ;;
 
             6)
 
               echo ""
-              echo "  Cargando Qwen3.5-2B-MTP-Abliterated-Q5_K_M..."
+              echo "  Cargando Qwen3.5-2B-MTP-Abliterated-Q5_K_M.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 1.0                           \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 2.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
+                                                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-2B-MTP-Abliterated-Q5_K_M.gguf
 
             ;;
 
             7)
 
               echo ""
-              echo "  Cargando Qwen3.5-2B-MTP-Abliterated-Q6_K..."
+              echo "  Cargando Qwen3.5-2B-MTP-Abliterated-Q6_K.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 1.0                           \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 2.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
+                                                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-2B-MTP-Abliterated-Q6_K.gguf
 
             ;;
 
             8)
 
               echo ""
-              echo "  Cargando Qwen3.5-2B-MTP-Abliterated-Q8_0..."
+              echo "  Cargando Qwen3.5-2B-MTP-Abliterated-Q8_0.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 1.0                           \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 2.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
+                                                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-2B-MTP-Abliterated-Q8_0.gguf
 
             ;;
 
             9)
 
               echo ""
-              echo "  Cargando Granite4.2-3B-Abliterated-Q4_K_M..."
+              echo "  Cargando Granite4.2-3B-Abliterated-Q4_K_M.gguf..."
               echo ""
               ~/IA/Apps/llama.cpp-opencl/llama-server \
                                                       \
@@ -272,9 +391,8 @@
                 --presence-penalty 0.0                \
                 --repeat-penalty 1.0                  \
                                                       \
-                --ctx-size 16384                      \
-                --reasoning-budget 1024               \
-                --reasoning off                       \
+                --ctx-size "$vContexto"               \
+                --reasoning-budget "$vRazonamiento"   \
                                                       \
                 --cache-type-k q4_K                   \
                 --cache-type-v q4_K                   \
@@ -284,14 +402,14 @@
                 --batch-size 2048                     \
                                                       \
                 --spec-type draft-mtp                 \
-                --spec-draft-n-max 2                  \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
                 --spec-draft-p-min 0.7                \
                                                       \
                 --flash-attn on                       \
                 --cache-prompt                        \
                 --cache-ram 8192                      \
                                                       \
-                --device openCL0                      \
+                --device "$vDispositivo"                      \
 
                 --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
 
@@ -304,7 +422,7 @@
            10)
 
               echo ""
-              echo "  Cargando Granite4.2-3B-Abliterated-Q5_K_M..."
+              echo "  Cargando Granite4.2-3B-Abliterated-Q5_K_M.gguf..."
               echo ""
               # Lanzar el servidor
                 x
@@ -314,7 +432,7 @@
            11)
 
               echo ""
-              echo "  Cargando Granite4.2-3B-Abliterated-Q6_K..."
+              echo "  Cargando Granite4.2-3B-Abliterated-Q6_K.gguf..."
               echo ""
               # Lanzar el servidor
                 x
@@ -324,7 +442,7 @@
            12)
 
               echo ""
-              echo "  Cargando Granite4.2-3B-Abliterated-Q8_0..."
+              echo "  Cargando Granite4.2-3B-Abliterated-Q8_0.gguf..."
               echo ""
               # Lanzar el servidor
                 x
@@ -334,40 +452,152 @@
            13)
 
               echo ""
-              echo "  Cargando Qwen3.5-4B-MTP-Abliterated-Q4_K_M..."
+              echo "  Cargando Qwen3.5-4B-MTP-Abliterated-Q4_K_M.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 1.0                           \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 2.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
+                                                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-4B-MTP-Abliterated-Q4_K_M.gguf
 
             ;;
 
            14)
 
               echo ""
-              echo "  Cargando Qwen3.5-4B-MTP-Abliterated-Q5_K_M..."
+              echo "  Cargando Qwen3.5-4B-MTP-Abliterated-Q5_K_M.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 1.0                           \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 2.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
+                                                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-4B-MTP-Abliterated-Q5_K_M.gguf
 
             ;;
 
            15)
 
               echo ""
-              echo "  Cargando Qwen3.5-4B-MTP-Abliterated-Q6_K..."
+              echo "  Cargando Qwen3.5-4B-MTP-Abliterated-Q6_K.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 1.0                           \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 2.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
+                                                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-4B-MTP-Abliterated-Q6_K.gguf
 
             ;;
 
            16)
 
               echo ""
-              echo "  Cargando Qwen3.5-4B-MTP-Abliterated-Q8_0..."
+              echo "  Cargando Qwen3.5-4B-MTP-Abliterated-Q8_0.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 1.0                           \
+                  --top-k 20                            \
+                  --min-p 0.0                           \
+                  --presence-penalty 2.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --spec-type draft-mtp                 \
+                  --spec-draft-n-max "$vCantMaxTokMTP"  \
+                  --spec-draft-p-min 0.7                \
+                                                        \
+                  --flash-attn on                       \
+                  --cache-prompt                        \
+                  --cache-ram 8192                      \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --model ~/IA/Modelos/GGUF/Qwen3.5-4B-MTP-Abliterated-Q8_0.gguf
 
             ;;
 
