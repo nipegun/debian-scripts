@@ -447,7 +447,7 @@ vNroGPULayers='auto'
                                                         \
                   --device "$vDispositivo"              \
                   --n-gpu-layers "$vNroGPULayers"       \
-                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
+                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q5_K_M.gguf
 
             ;;
 
@@ -478,7 +478,7 @@ vNroGPULayers='auto'
                                                         \
                   --device "$vDispositivo"              \
                   --n-gpu-layers "$vNroGPULayers"       \
-                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
+                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q6_K.gguf
 
             ;;
 
@@ -509,7 +509,7 @@ vNroGPULayers='auto'
                                                         \
                   --device "$vDispositivo"              \
                   --n-gpu-layers "$vNroGPULayers"       \
-                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
+                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q8_0.gguf
 
             ;;
 
