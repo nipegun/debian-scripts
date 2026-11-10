@@ -25,12 +25,16 @@
 # --cache-prompt         : Reutiliza tokens del prompt ya procesados, evitando recalcularlos.
 # --cache-ram 8192       : Permite almacenar estados de prompts en la RAM del sistema para reutilizarlos posteriormente.
 #
+# --n-gpu-layers auto  : Distribuye automáticamente las capas entre CPU y GPU para ajustarse a la memoria disponible.
+# --cpu-moe            : Mantiene todos los pesos de expertos MoE en RAM.
+# --moe-cache-mib 2048 : Esto configura una caché de expertos, destinando hasta 2GiB de VRAM en GPU para esos expertos.
 # ----------
 
 vDispositivo='OpenCL0'
 vContexto='16384'
 vRazonamiento='1024'
 vCantMaxTokMTP='2'
+vNroGPULayers='auto'
 
 # Crear el menú
   # Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
@@ -107,6 +111,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q4_K_M.gguf
 
             ;;
@@ -145,6 +150,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q5_K_M.gguf
 
             ;;
@@ -183,6 +189,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q6_K.gguf
 
             ;;
@@ -221,6 +228,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-0.8B-MTP-Abliterated-Q8_0.gguf
 
             ;;
@@ -259,6 +267,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-2B-MTP-Abliterated-Q4_K_M.gguf
 
             ;;
@@ -297,6 +306,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-2B-MTP-Abliterated-Q5_K_M.gguf
 
             ;;
@@ -335,6 +345,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-2B-MTP-Abliterated-Q6_K.gguf
 
             ;;
@@ -373,6 +384,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-2B-MTP-Abliterated-Q8_0.gguf
 
             ;;
@@ -382,40 +394,29 @@ vCantMaxTokMTP='2'
               echo ""
               echo "  Cargando Granite4.2-3B-Abliterated-Q4_K_M.gguf..."
               echo ""
-              ~/IA/Apps/llama.cpp-opencl/llama-server \
-                                                      \
-                --temp 1.0                            \
-                --top-p 0.95                          \
-                --top-k 0                             \
-                --min-p 0.0                           \
-                --presence-penalty 0.0                \
-                --repeat-penalty 1.0                  \
-                                                      \
-                --ctx-size "$vContexto"               \
-                --reasoning-budget "$vRazonamiento"   \
-                                                      \
-                --cache-type-k q4_K                   \
-                --cache-type-v q4_K                   \
-                                                      \
-                --parallel 1                          \
-                --ubatch-size 1024                    \
-                --batch-size 2048                     \
-                                                      \
-                --spec-type draft-mtp                 \
-                  --spec-draft-n-max "$vCantMaxTokMTP"  \
-                --spec-draft-p-min 0.7                \
-                                                      \
-                --flash-attn on                       \
-                --cache-prompt                        \
-                --cache-ram 8192                      \
-                                                      \
-                --device "$vDispositivo"                      \
-
-                --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
-
-                # --n-gpu-layers auto  : Distribuye automáticamente las capas entre CPU y GPU para ajustarse a la memoria disponible.
-                # --cpu-moe            : Mantiene todos los pesos de expertos MoE en RAM.
-                # --moe-cache-mib 2048 : Esto configura una caché de expertos, destinando hasta 2GiB de VRAM en GPU para esos expertos.
+              # Lanzar el servidor
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 0.95                          \
+                  --top-k 0                             \
+                  --min-p 0.0                           \
+                  --presence-penalty 0.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
+                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
 
             ;;
 
@@ -425,7 +426,28 @@ vCantMaxTokMTP='2'
               echo "  Cargando Granite4.2-3B-Abliterated-Q5_K_M.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 0.95                          \
+                  --top-k 0                             \
+                  --min-p 0.0                           \
+                  --presence-penalty 0.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
+                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
 
             ;;
 
@@ -435,7 +457,28 @@ vCantMaxTokMTP='2'
               echo "  Cargando Granite4.2-3B-Abliterated-Q6_K.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 0.95                          \
+                  --top-k 0                             \
+                  --min-p 0.0                           \
+                  --presence-penalty 0.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
+                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
 
             ;;
 
@@ -445,7 +488,28 @@ vCantMaxTokMTP='2'
               echo "  Cargando Granite4.2-3B-Abliterated-Q8_0.gguf..."
               echo ""
               # Lanzar el servidor
-                x
+                ~/IA/Apps/llama.cpp-opencl/llama-server \
+                                                        \
+                  --temp 1.0                            \
+                  --top-p 0.95                          \
+                  --top-k 0                             \
+                  --min-p 0.0                           \
+                  --presence-penalty 0.0                \
+                  --repeat-penalty 1.0                  \
+                                                        \
+                  --ctx-size "$vContexto"               \
+                  --reasoning-budget "$vRazonamiento"   \
+                                                        \
+                  --cache-type-k q8_0                   \
+                  --cache-type-v q8_0                   \
+                                                        \
+                  --parallel 1                          \
+                  --ubatch-size 1024                    \
+                  --batch-size 2048                     \
+                                                        \
+                  --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
+                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
 
             ;;
 
@@ -458,10 +522,10 @@ vCantMaxTokMTP='2'
                 ~/IA/Apps/llama.cpp-opencl/llama-server \
                                                         \
                   --temp 1.0                            \
-                  --top-p 1.0                           \
+                  --top-p 0.95                          \
                   --top-k 20                            \
                   --min-p 0.0                           \
-                  --presence-penalty 2.0                \
+                  --presence-penalty 1.5                \
                   --repeat-penalty 1.0                  \
                                                         \
                   --ctx-size "$vContexto"               \
@@ -483,6 +547,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-4B-MTP-Abliterated-Q4_K_M.gguf
 
             ;;
@@ -496,10 +561,10 @@ vCantMaxTokMTP='2'
                 ~/IA/Apps/llama.cpp-opencl/llama-server \
                                                         \
                   --temp 1.0                            \
-                  --top-p 1.0                           \
+                  --top-p 0.95                          \
                   --top-k 20                            \
                   --min-p 0.0                           \
-                  --presence-penalty 2.0                \
+                  --presence-penalty 1.5                \
                   --repeat-penalty 1.0                  \
                                                         \
                   --ctx-size "$vContexto"               \
@@ -521,6 +586,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-4B-MTP-Abliterated-Q5_K_M.gguf
 
             ;;
@@ -534,10 +600,10 @@ vCantMaxTokMTP='2'
                 ~/IA/Apps/llama.cpp-opencl/llama-server \
                                                         \
                   --temp 1.0                            \
-                  --top-p 1.0                           \
+                  --top-p 0.95                          \
                   --top-k 20                            \
                   --min-p 0.0                           \
-                  --presence-penalty 2.0                \
+                  --presence-penalty 1.5                \
                   --repeat-penalty 1.0                  \
                                                         \
                   --ctx-size "$vContexto"               \
@@ -559,6 +625,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-4B-MTP-Abliterated-Q6_K.gguf
 
             ;;
@@ -572,10 +639,10 @@ vCantMaxTokMTP='2'
                 ~/IA/Apps/llama.cpp-opencl/llama-server \
                                                         \
                   --temp 1.0                            \
-                  --top-p 1.0                           \
+                  --top-p 0.95                          \
                   --top-k 20                            \
                   --min-p 0.0                           \
-                  --presence-penalty 2.0                \
+                  --presence-penalty 1.5                \
                   --repeat-penalty 1.0                  \
                                                         \
                   --ctx-size "$vContexto"               \
@@ -597,6 +664,7 @@ vCantMaxTokMTP='2'
                   --cache-ram 8192                      \
                                                         \
                   --device "$vDispositivo"              \
+                  --n-gpu-layers "$vNroGPULayers"       \
                   --model ~/IA/Modelos/GGUF/Qwen3.5-4B-MTP-Abliterated-Q8_0.gguf
 
             ;;
