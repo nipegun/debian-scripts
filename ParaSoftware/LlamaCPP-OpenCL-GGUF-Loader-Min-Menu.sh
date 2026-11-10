@@ -30,6 +30,24 @@
 # --moe-cache-mib 2048 : Esto configura una caché de expertos, destinando hasta 2GiB de VRAM en GPU para esos expertos.
 # ----------
 
+# ----------
+vPromptParaCorregir='
+Cada modelo de este script tiene correctamente configurados:
+ - `--temp`.
+ - `--top-p`.
+ - `--top-k`.
+ - `--min-p`.
+ - `--presence-penalty`.
+ - `--repeat-penalty`.
+...con las medidas correspondientes a cada modelo, pero no estoy seguro de que el resto de opciones estén bien configuradas.
+Habría que hacer múltiples pruebas con cada modelo, para determinar cuales son los mejores argumentos para lanzarlo, de forma que se obtenga la mejor velocidad de prefill y decoding posibles.
+Por ejemplo, seguramente con el modelo de 0.8B podrá hacer `--n-gpu-layers all`, pero otros modelos tendrán que hacer `--n-gpu-layers auto` o especificar exactamente cuanta cantidad de capas cargar en VRAM.
+Y seguramente, para este hardware específico haya otras opciones que modificar/agregar/quitar, que mejoren el desempeño de cada modelo específico.
+Realiza todas las pruebas posibles para lograr sacar el mejor rendimiento posible de cada modelo y modifica cada sección del script con los argumentos correctos.
+Todas las herramientas están en /root/IA/Apps/llama.cpp-opencl/
+'
+# ----------
+
 vDispositivo='OpenCL0'
 vContexto='16384'
 vRazonamiento='1024'
@@ -416,7 +434,7 @@ vNroGPULayers='auto'
                                                         \
                   --device "$vDispositivo"              \
                   --n-gpu-layers "$vNroGPULayers"       \
-                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
+                  --model ~/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q4_K_M.gguf
 
             ;;
 
@@ -447,7 +465,7 @@ vNroGPULayers='auto'
                                                         \
                   --device "$vDispositivo"              \
                   --n-gpu-layers "$vNroGPULayers"       \
-                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q5_K_M.gguf
+                  --model ~/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q5_K_M.gguf
 
             ;;
 
@@ -478,7 +496,7 @@ vNroGPULayers='auto'
                                                         \
                   --device "$vDispositivo"              \
                   --n-gpu-layers "$vNroGPULayers"       \
-                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q6_K.gguf
+                  --model ~/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q6_K.gguf
 
             ;;
 
@@ -509,7 +527,7 @@ vNroGPULayers='auto'
                                                         \
                   --device "$vDispositivo"              \
                   --n-gpu-layers "$vNroGPULayers"       \
-                  --model /home/usuariox/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q8_0.gguf
+                  --model ~/IA/Modelos/GGUF/Granite4.2-3B-Abliterated-Q8_0.gguf
 
             ;;
 
