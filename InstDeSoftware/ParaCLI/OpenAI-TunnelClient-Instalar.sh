@@ -63,8 +63,6 @@
 
     sudo apt-get -y update
     sudo apt-get -y install curl unzip ca-certificates
-    sudo mkdir -p ~/tunnel-client-install
-    sudo cd ~/tunnel-client-install
 
     # Obtener el tag de la última release del repo de Github
       echo ""
