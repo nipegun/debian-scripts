@@ -104,6 +104,10 @@
       sudo apt-get -y install papirus-icon-theme
       gsettings set org.gnome.desktop.interface icon-theme "Papirus"
 
+    # Hacer que el botón de inicio del teclado muestre las apps de Gnome
+      gsettings set org.gnome.mutter overlay-key ''
+      gsettings set org.gnome.shell.keybindings toggle-application-view "['Super_L']"
+
     # Reiniciar el sistema
       echo ""
       echo "  Reiniciando el sistema..."
