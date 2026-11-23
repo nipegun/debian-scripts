@@ -29,7 +29,8 @@
       sudo apt-get -y install curl
       echo ""
     fi
-  vNroUltVersEstable=$(curl -fsSL 'https://www.nvidia.com/es-es/drivers/unix/' | grep -m2 'Linux x86_64/AMD64/EM64T' | grep roducc | grep -oP '<span class="PB">.*?<a[^>]*>\K[0-9]+(\.[0-9]+)+')
+  #vNroUltVersEstable=$(curl -fsSL 'https://www.nvidia.com/es-es/drivers/unix/' | grep -m2 'Linux x86_64/AMD64/EM64T' | grep roducc | grep -oP '<span class="PB">.*?<a[^>]*>\K[0-9]+(\.[0-9]+)+')
+  vNroUltVersEstable=$(curl -fsSL https://download.nvidia.com/XFree86/Linux-x86_64/latest.txt | cut -d' ' -f1)
 
 # Definir constantes de color
   cColorAzul="\033[0;34m"
