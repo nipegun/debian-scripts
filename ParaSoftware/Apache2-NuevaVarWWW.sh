@@ -198,7 +198,7 @@
               echo ""
               echo "  Creando la base de datos con su usuario..."
               echo ""
-              sudo /root/scripts/d-scripts/ParaSoftware/MySQL-BaseDeDatos-Crear.sh "$cDominio" "$cDominio" "$cPassBD"
+              sudo /root/scripts/debian-scripts/ParaSoftware/MySQL-BaseDeDatos-Crear.sh "$cDominio" "$cDominio" "$cPassBD"
 
             ;;
 
