@@ -9,10 +9,10 @@
 # Script de NiPeGun para instalar el servidor web con apache2 en Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/InstDeSoftware/ServWeb/Apache2-ParaWordPress.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/InstDeSoftware/ServWeb/Apache2-ParaWordPress.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/InstDeSoftware/ServWeb/Apache2-ParaWordPress.sh| sed 's-sudo--g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/InstDeSoftware/ServWeb/Apache2-ParaWordPress.sh | sed 's-sudo--g' | bash
 # ----------
 
 # Definir constantes
@@ -566,7 +566,7 @@ elif [ $cVerSO == "12" ]; then
               echo ""
               echo "      Instalando el servidor de bases de datos..."
               echo ""
-              curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/master/SoftInst/ParaCLI/Servidor-BBDD-MariaDB-InstalarYConfigurar.sh | bash
+              curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts//refs/heads/main/SoftInst/ParaCLI/Servidor-BBDD-MariaDB-InstalarYConfigurar.sh | bash
 
             # Instalar memcached
               echo ""
