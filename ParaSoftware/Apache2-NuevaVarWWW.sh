@@ -274,16 +274,9 @@
                   echo -e "${cColorAzulClaro}  Iniciando el script de creación de nueva web de apache2 para Debian 10 (Buster)...${cFinColor}"
                   echo ""
 
-                  # Permitir los puertos en el cortafuegos
-                    sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-                    sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-
-                  sudo systemctl apache2 stop
-                  sudo apt-get -y update
-                  sudo apt-get -y install certbot
-                  sudo apt-get -y install python3-certbot-apache
-                  sudo certbot --apache -d "$cDominio""$cExtDominio" -d www."$cDominio""$cExtDominio"
-                  sudo systemctl apache2 start
+                  echo ""
+                  echo -e "${cColorRojo}    Comandos para Debian 10 todavía no preparados. Prueba ejecutarlo en otra versión de Debian.${cFinColor}"
+                  echo ""
 
                 elif [ $cVerSO == "9" ]; then
 
