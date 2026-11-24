@@ -25,7 +25,7 @@
           4 "Opción 4" off
           5 "Opción 5" off
         )
-      choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
+      choices=$("${menu[@]}" "${opciones[@]}" </dev/tty 2>&1 >/dev/tty)
       #clear
 
       for choice in $choices
