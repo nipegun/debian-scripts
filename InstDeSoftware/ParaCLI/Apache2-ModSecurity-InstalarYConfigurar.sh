@@ -81,9 +81,7 @@
           sudo apt-get -y install dialog
           echo ""
         fi
-      #menu=(dialog --timeout 5 --checklist "Marca las opciones que quieras instalar:" 22 96 16)
-      #menu=(dialog --radiolist "Marca las opciones que quieras instalar:" 22 80 16)      # Selección única
-      menu=(dialog --checklist "Marca las opciones que quieras instalar:" 22 80 16)
+      menu=(dialog --radiolist "Marca las opciones que quieras instalar:" 22 80 16)
         opciones=(
           1 "Activar la configuración para log combined" on
           2 "Activar la configuración para x2" off
@@ -91,8 +89,7 @@
           4 "Activar la configuración para x4" off
           5 "Activar la configuración para x5" off
         )
-      choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
-      #clear
+      choices=$("${menu[@]}" "${opciones[@]}" </dev/tty 2>&1 >/dev/tty)
 
       for choice in $choices
         do
