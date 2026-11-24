@@ -61,6 +61,82 @@
     echo -e "${cColorAzulClaro}  Iniciando el script de instalación de modsecurity2 para apache2 en Debian 13 (x)...${cFinColor}"
     echo ""
 
+    # Crear el menú
+      # Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
+        if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
+          echo ""
+          echo -e "${cColorRojo}  El paquete dialog no está instalado. Iniciando su instalación...${cFinColor}"
+          echo ""
+          sudo apt-get -y update
+          sudo apt-get -y install dialog
+          echo ""
+        fi
+      #menu=(dialog --timeout 5 --checklist "Marca las opciones que quieras instalar:" 22 96 16)
+      #menu=(dialog --radiolist "Marca las opciones que quieras instalar:" 22 80 16)      # Selección única
+      menu=(dialog --checklist "Marca las opciones que quieras instalar:" 22 80 16)
+        opciones=(
+          1 "Instalar configurando para log combined" on
+          2 "Instalar para log " off
+          3 "Opción 3" off
+          4 "Opción 4" off
+          5 "Opción 5" off
+        )
+      choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
+      #clear
+
+      for choice in $choices
+        do
+          case $choice in
+
+            1)
+
+              echo ""
+              echo "  Opción 1..."
+              echo ""
+
+            ;;
+
+            2)
+
+              echo ""
+              echo "  Opción 2..."
+              echo ""
+
+            ;;
+
+            3)
+
+              echo ""
+              echo "  Opción 3..."
+              echo ""
+
+            ;;
+
+            4)
+
+              echo ""
+              echo "  Opción 4..."
+              echo ""
+
+            ;;
+
+            5)
+
+              echo ""
+              echo "  Opción 5..."
+              echo ""
+
+            ;;
+
+        esac
+
+    done
+
+
+
+
+
+
     # Actualizar la lista de paquetes disponibles en los repositorios
       sudo apt-get -y update
 
@@ -101,6 +177,11 @@
       echo "  Revisa durante unos días las líneas 'ModSecurity:' de los ErrorLog de cada web y, cuando sólo salgan ataques, activa el bloqueo con:"
       echo "    sed -i 's/^SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf && systemctl reload apache2"
       echo ""
+
+
+
+
+
 
   elif [ $cVerSO == "12" ]; then
 
