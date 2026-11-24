@@ -226,9 +226,16 @@ if [ $cVerSO == "13" ]; then
               echo ""
               echo "      Instalando el certificado SSL autofirmado para https..."
               echo ""
-              sudo mkdir -p /etc/apache2/ssl/
-              sudo openssl req -x509 -nodes -days 365 -newkey rsa:8192 -out /etc/apache2/ssl/autocertssl.pem -keyout /etc/apache2/ssl/autocertssl.key
-              sudo chmod 600 /etc/apache2/ssl/*
+              sudo mkdir -p /etc/apache2/ssl/ || exit 1
+              vNombreSSL=$(hostname) || exit 1
+              if ! sudo openssl req -x509 -nodes -days 365 -newkey rsa:8192 \
+                -subj "/CN=$vNombreSSL" \
+                -out /etc/apache2/ssl/autocertssl.pem \
+                -keyout /etc/apache2/ssl/autocertssl.key </dev/null; then
+                printf '%s\n' 'Error al generar el certificado HTTPS de Apache.' >&2
+                exit 1
+              fi
+              sudo chmod 600 /etc/apache2/ssl/autocertssl.{pem,key} || exit 1
               sudo cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf.bak.ori
               sudo sed -i -e 's|${APACHE_LOG_DIR}|'"$cCarpetaDeLogs"'|g'                         /etc/apache2/sites-available/default-ssl.conf
               sudo sed -i -e 's|ssl/certs/ssl-cert-snakeoil.pem|apache2/ssl/autocertssl.pem|g'   /etc/apache2/sites-available/default-ssl.conf
