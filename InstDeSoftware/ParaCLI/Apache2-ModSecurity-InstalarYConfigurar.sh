@@ -87,25 +87,25 @@
           echo ""
           exit 0
         fi
-  
+
       # Actualizar la lista de paquetes disponibles en los repositorios e instalar ModSecurity2 + OWASP CRS
         sudo apt-get -y update 
         sudo apt-get -y install libapache2-mod-security2 
         sudo apt-get -y install modsecurity-crs 
-  
-      # Activar security2 y unique_id en Apache                                                                              
-        sudo a2enmod security2 unique_id                                                                                     
-  
-      # Activar la configuración recomendada de ModSecurity (sólo la primera vez, para no pisar ajustes posteriores)         
+
+      # Activar security2 y unique_id en Apache
+        sudo a2enmod security2 unique_id
+
+      # Activar la configuración recomendada de ModSecurity (sólo la primera vez, para no pisar ajustes posteriores)
         if [ ! -f /etc/modsecurity/modsecurity.conf ]; then
           sudo cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
-          # No inspeccionar el HTML de las respuestas (evita falsos positivos como el del escritorio de WordPress)           
-            sudo sed -i 's/^SecResponseBodyAccess On/SecResponseBodyAccess Off/' /etc/modsecurity/modsecurity.conf           
+          # No inspeccionar el HTML de las respuestas (evita falsos positivos como el del escritorio de WordPress)
+            sudo sed -i 's/^SecResponseBodyAccess On/SecResponseBodyAccess Off/' /etc/modsecurity/modsecurity.conf
         fi
         # SecRuleEngine se queda en DetectionOnly: registra sin bloquear
-  
-      # Ajustes locales de CRS: exclusiones de WordPress y permitir la cabecera Accept-Charset                               
-        vHeaders=$(grep -o "tx.restricted_headers=[^']*" /usr/share/modsecurity-crs/rules/REQUEST-901-INITIALIZATION.conf | head -n 1 | sed -e 's#^tx.restricted_headers=##' -e 's#/accept-charset/##' -e 's/  */ /g' -e 's/^ //' -e 's/ $//')   
+
+      # Ajustes locales de CRS: exclusiones de WordPress y permitir la cabecera Accept-Charset
+        vHeaders=$(grep -o "tx.restricted_headers=[^']*" /usr/share/modsecurity-crs/rules/REQUEST-901-INITIALIZATION.conf | head -n 1 | sed -e 's#^tx.restricted_headers=##' -e 's#/accept-charset/##' -e 's/  */ /g' -e 's/^ //' -e 's/ $//')
         if [ -n "$vHeaders" ]; then
           printf '%s\n' 'SecAction "id:900130,phase:1,nolog,pass,t:none,setvar:tx.crs_exclusions_wordpress=1"'       | sudo tee    /etc/modsecurity/crs-local.conf > /dev/null
           printf '%s\n' "SecAction \"id:900250,phase:1,nolog,pass,t:none,setvar:'tx.restricted_headers=$vHeaders'\"" | sudo tee -a /etc/modsecurity/crs-local.conf > /dev/null
@@ -122,11 +122,11 @@
               echo ""
               echo "  Activando la configuración para log combined (conexión directa)..."
               echo ""
-  
+
               # Retirar configuración previa de nipegun-live-panel si existía
                 sudo a2disconf zz-nipegun-live-panel >/dev/null 2>&1 || true
                 sudo rm -f /etc/apache2/conf-available/zz-nipegun-live-panel.conf
-  
+
               # Comprobar la configuración y recargar Apache
                 echo ""
                 echo "  Comprobando la configuración..."
@@ -142,24 +142,24 @@
               echo "  Activando la configuración para log remote_combined (con mod_remoteip)..."
               echo ""
 
-              # Retirar configuración previa de nipegun-live-panel si existía                                                                      
-                sudo a2disconf zz-nipegun-live-panel >/dev/null 2>&1 || true                                                                       
-                sudo rm -f /etc/apache2/conf-available/zz-nipegun-live-panel.conf                                                                  
-                                                                                                                                                       
-              # Activar mod_remoteip y su archivo remoteip.conf si existe                                                                          
-                sudo a2enmod remoteip                                                                                                              
-                if [ -f /etc/apache2/conf-available/remoteip.conf ]; then                                                                          
-                  sudo a2enconf remoteip                                                                                                           
-                else                                                                                                                               
-                  echo -e "${cColorRojo}    Aviso: no existe /etc/apache2/conf-available/remoteip.conf. Créalo si usas RemoteIPHeader X-Forwarded-For.${cFinColor}"                                                                                                    
-                fi                                                                                                                                 
-                                                                                                                                                       
-              # Comprobar la configuración y recargar Apache                                                                                       
-                echo ""                                                                                                                            
-                echo "  Comprobando la configuración..."                                                                                           
-                echo ""                                                                                                                            
-                sudo apache2ctl configtest && sudo systemctl reload apache2                                                                        
-                sudo apache2ctl -M | grep -E 'security2|unique_id|remoteip'    
+              # Retirar configuración previa de nipegun-live-panel si existía
+                sudo a2disconf zz-nipegun-live-panel >/dev/null 2>&1 || true
+                sudo rm -f /etc/apache2/conf-available/zz-nipegun-live-panel.conf
+
+              # Activar mod_remoteip y su archivo remoteip.conf si existe
+                sudo a2enmod remoteip
+                if [ -f /etc/apache2/conf-available/remoteip.conf ]; then
+                  sudo a2enconf remoteip
+                else
+                  echo -e "${cColorRojo}    Aviso: no existe /etc/apache2/conf-available/remoteip.conf. Créalo si usas RemoteIPHeader X-Forwarded-For.${cFinColor}"
+                fi
+
+              # Comprobar la configuración y recargar Apache
+                echo ""
+                echo "  Comprobando la configuración..."
+                echo ""
+                sudo apache2ctl configtest && sudo systemctl reload apache2
+                sudo apache2ctl -M | grep -E 'security2|unique_id|remoteip'
 
             ;;
 
@@ -169,23 +169,23 @@
               echo "  Activando la configuración para nipegun-live-panel (conexión directa)..."
               echo ""
 
-              # Sobreescribir el alias combined al final de conf-enabled sin tocar el apache2.conf de fábrica                                      
-                printf '%s\n' 'LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %v %D %{UNIQUE_ID}e" combined' | sudo tee /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null                                                                 
-                sudo a2enconf zz-nipegun-live-panel                                                                                                
-                                                                                                                                                       
-              # Permitir a www-data leer logs estándar del grupo adm                                                                               
-                sudo usermod -aG adm www-data                                                                                                      
-                                                                                                                                                       
-              # Comprobar la configuración y recargar Apache                                                                                       
-                echo ""                                                                                                                            
-                echo "  Comprobando la configuración..."                                                                                           
-                echo ""                                                                                                                            
-                sudo apache2ctl configtest && sudo systemctl reload apache2                                                                        
-                sudo apache2ctl -M | grep -E 'security2|unique_id'                                                                                 
-                                                                                                                                                       
-              echo ""                                                                                                                              
-              echo "  Recuerda configurar las rutas de access.log y error.log en wp-admin -> nipegun Live Panel"                                   
-              echo "  y verificar que el usuario www-data tenga permiso de lectura sobre la carpeta de logs de la web."  
+              # Sobreescribir el alias combined al final de conf-enabled sin tocar el apache2.conf de fábrica
+                printf '%s\n' 'LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %v %D %{UNIQUE_ID}e" combined' | sudo tee /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null
+                sudo a2enconf zz-nipegun-live-panel
+
+              # Permitir a www-data leer logs estándar del grupo adm
+                sudo usermod -aG adm www-data
+
+              # Comprobar la configuración y recargar Apache
+                echo ""
+                echo "  Comprobando la configuración..."
+                echo ""
+                sudo apache2ctl configtest && sudo systemctl reload apache2
+                sudo apache2ctl -M | grep -E 'security2|unique_id'
+
+              echo ""
+              echo "  Recuerda configurar las rutas de access.log y error.log en wp-admin -> nipegun Live Panel"
+              echo "  y verificar que el usuario www-data tenga permiso de lectura sobre la carpeta de logs de la web."
 
             ;;
 
@@ -195,34 +195,34 @@
               echo "  Activando la configuración para nipegun-live-panel (con mod_remoteip)..."
               echo ""
 
-              # Activar mod_remoteip y su archivo remoteip.conf si existe                                                                                                                                        
-                sudo a2enmod remoteip                                                                                                                                                                            
-                if [ -f /etc/apache2/conf-available/remoteip.conf ]; then                                                                                                                                        
-                  sudo a2enconf remoteip                                                                                                                                                                         
-                else                                                                                                                                                                                             
-                  echo -e "${cColorRojo}    Aviso: no existe /etc/apache2/conf-available/remoteip.conf. Créalo si usas RemoteIPHeader X-Forwarded-For.${cFinColor}"                                              
-                fi                                                                                                                                                                                               
-                                                                                                                                                                                                                     
-              # Sobreescribir combined y remote_combined con %a + UNIQUE_ID después de apache2.conf y remoteip.conf                                                                                              
-                printf '%s\n' 'LogFormat "%a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %v %D %{UNIQUE_ID}e" combined'          | sudo tee    /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null                                                                                                                            
-                printf '%s\n' '<IfModule remoteip_module>'                                                                                     | sudo tee -a /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null                                                                                                                               
-                printf '%s\n' '  LogFormat "%a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %v %D %{UNIQUE_ID}e" remote_combined' | sudo tee -a /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null                                                                                                                               
-                printf '%s\n' '</IfModule>'                                                                                                    | sudo tee -a /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null                                                                                                                               
-                sudo a2enconf zz-nipegun-live-panel                                                                                                                                                              
-                                                                                                                                                                                                                     
-              # Permitir a www-data leer logs estándar del grupo adm                                                                                                                                             
-                sudo usermod -aG adm www-data                                                                                                                                                                    
-                                                                                                                                                                                                                     
-              # Comprobar la configuración y recargar Apache                                                                                                                                                     
-                echo ""                                                                                                                                                                                          
-                echo "  Comprobando la configuración..."                                                                                                                                                         
-                echo ""                                                                                                                                                                                          
-                sudo apache2ctl configtest && sudo systemctl reload apache2                                                                                                                                      
-                sudo apache2ctl -M | grep -E 'security2|unique_id|remoteip'                                                                                                                                      
-                                                                                                                                                                                                                     
-              echo ""                                                                                                                                                                                            
-              echo "  Recuerda configurar las rutas de access.log y error.log en wp-admin -> nipegun Live Panel"                                                                                                 
-              echo "  y verificar que el usuario www-data tenga permiso de lectura sobre la carpeta de logs de la web."  
+              # Activar mod_remoteip y su archivo remoteip.conf si existe
+                sudo a2enmod remoteip
+                if [ -f /etc/apache2/conf-available/remoteip.conf ]; then
+                  sudo a2enconf remoteip
+                else
+                  echo -e "${cColorRojo}    Aviso: no existe /etc/apache2/conf-available/remoteip.conf. Créalo si usas RemoteIPHeader X-Forwarded-For.${cFinColor}"
+                fi
+
+              # Sobreescribir combined y remote_combined con %a + UNIQUE_ID después de apache2.conf y remoteip.conf
+                printf '%s\n' 'LogFormat "%a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %v %D %{UNIQUE_ID}e" combined'          | sudo tee    /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null
+                printf '%s\n' '<IfModule remoteip_module>'                                                                                     | sudo tee -a /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null
+                printf '%s\n' '  LogFormat "%a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %v %D %{UNIQUE_ID}e" remote_combined' | sudo tee -a /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null
+                printf '%s\n' '</IfModule>'                                                                                                    | sudo tee -a /etc/apache2/conf-available/zz-nipegun-live-panel.conf > /dev/null
+                sudo a2enconf zz-nipegun-live-panel
+
+              # Permitir a www-data leer logs estándar del grupo adm
+                sudo usermod -aG adm www-data
+
+              # Comprobar la configuración y recargar Apache
+                echo ""
+                echo "  Comprobando la configuración..."
+                echo ""
+                sudo apache2ctl configtest && sudo systemctl reload apache2
+                sudo apache2ctl -M | grep -E 'security2|unique_id|remoteip'
+
+              echo ""
+              echo "  Recuerda configurar las rutas de access.log y error.log en wp-admin -> nipegun Live Panel"
+              echo "  y verificar que el usuario www-data tenga permiso de lectura sobre la carpeta de logs de la web."
 
             ;;
 
