@@ -177,7 +177,17 @@
                 #  adm es un grupo de sistema que viene de fábrica en Debian (GID 4) dedicado exclusivamente a tareas de monitorización y lectura de logs.
                 #  Por defecto en Debian, muchos registros de /var/log/ (como /var/log/apache2/*.log, auth.log, syslog o el journal de systemd) se crean con propietario root, grupo adm y permisos 640 (rw-r-----).
                 #  Así, cuando quieres que un usuario o servicio pueda sólo leer esos logs sin ser root ni poder modificarlos, Debian usa el grupo adm.
-                sudo usermod -aG adm www-data
+                #  NOTA: meter www-data en adm le da permiso de lectura no sólo sobre /var/log/apache2/, sino también sobre otros logs sensibles del sistema en /var/log/ (syslog, auth.log, journal, etc.
+                # sudo usermod -aG adm www-data
+
+              # Si los logs se guardan en una subcarpeta de /var/www/, es mucho más limpio y seguro NO meter www-data en adm y asignar directamente el grupo www-data sólo a esa carpeta de logs:
+                #  De esa forma:
+                # - root (el proceso maestro de Apache) es el único que puede escribir o truncar los logs.
+                # - www-data (PHP / nipegun-live-panel) puede leer únicamente los logs de la web y no ve nada de /var/log/.
+                # - El resto de usuarios del sistema (0) no puede ni entrar en la carpeta. (Incluso puedes quitar sudo usermod -aG adm www-data de las opciones 3 y 4 del script si siempre usas /var/www/<dominio>-logs/).
+                chown -R root:www-data /var/www/nipegun.com-logs
+                chmod 750 /var/www/nipegun.com-logs
+                chmod 640 /var/www/nipegun.com-logs/*.log
 
               # Comprobar la configuración y recargar Apache
                 echo ""
@@ -217,8 +227,18 @@
                 #  adm es un grupo de sistema que viene de fábrica en Debian (GID 4) dedicado exclusivamente a tareas de monitorización y lectura de logs.
                 #  Por defecto en Debian, muchos registros de /var/log/ (como /var/log/apache2/*.log, auth.log, syslog o el journal de systemd) se crean con propietario root, grupo adm y permisos 640 (rw-r-----).
                 #  Así, cuando quieres que un usuario o servicio pueda sólo leer esos logs sin ser root ni poder modificarlos, Debian usa el grupo adm.
-                sudo usermod -aG adm www-data
+                #  NOTA: meter www-data en adm le da permiso de lectura no sólo sobre /var/log/apache2/, sino también sobre otros logs sensibles del sistema en /var/log/ (syslog, auth.log, journal, etc.
+                # sudo usermod -aG adm www-data
 
+              # Si los logs se guardan en una subcarpeta de /var/www/, es mucho más limpio y seguro NO meter www-data en adm y asignar directamente el grupo www-data sólo a esa carpeta de logs:
+                #  De esa forma:
+                # - root (el proceso maestro de Apache) es el único que puede escribir o truncar los logs.
+                # - www-data (PHP / nipegun-live-panel) puede leer únicamente los logs de la web y no ve nada de /var/log/.
+                # - El resto de usuarios del sistema (0) no puede ni entrar en la carpeta. (Incluso puedes quitar sudo usermod -aG adm www-data de las opciones 3 y 4 del script si siempre usas /var/www/<dominio>-logs/).
+                chown -Rv root:www-data /var/www/nipegun.com-logs
+                chmod 750 -v /var/www/nipegun.com-logs
+                chmod 640 -v /var/www/nipegun.com-logs/*.log
+  
               # Comprobar la configuración y recargar Apache
                 echo ""
                 echo "  Comprobando la configuración..."
