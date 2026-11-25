@@ -58,7 +58,7 @@
   if [ $cVerSO == "13" ]; then
 
     echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de instalación de modsecurity2 para apache2 en Debian 13 (x)...${cFinColor}"
+    echo -e "${cColorAzulClaro}  Iniciando el script de instalación de modsecurity2 para apache2 en Debian 13 (Trixie)...${cFinColor}"
     echo ""
 
     # Crear el menú
@@ -71,7 +71,7 @@
           sudo apt-get -y install dialog
           echo ""
         fi
-      menu=(dialog --radiolist "Marca las opciones que quieras instalar:" 22 80 16)
+      menu=(dialog --radiolist "Marca las opciones que quieras instalar:" 22 90 16)
         opciones=(
           1 "Activar la configuración para log combined (conexión directa)"        on
           2 "Activar la configuración para log remote_combined (con mod_remoteip)" off
@@ -89,9 +89,9 @@
         fi
 
       # Actualizar la lista de paquetes disponibles en los repositorios e instalar ModSecurity2 + OWASP CRS
-        sudo apt-get -y update 
-        sudo apt-get -y install libapache2-mod-security2 
-        sudo apt-get -y install modsecurity-crs 
+        sudo apt-get -y update
+        sudo apt-get -y install libapache2-mod-security2
+        sudo apt-get -y install modsecurity-crs
 
       # Activar security2 y unique_id en Apache
         sudo a2enmod security2 unique_id
@@ -226,9 +226,9 @@
 
             ;;
 
-        esac
+          esac
 
-    done
+      done
 
     # Notificar cómo seguir
       echo ""
