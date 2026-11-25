@@ -174,6 +174,9 @@
                 sudo a2enconf zz-nipegun-live-panel
 
               # Permitir a www-data leer logs estándar del grupo adm
+                #  adm es un grupo de sistema que viene de fábrica en Debian (GID 4) dedicado exclusivamente a tareas de monitorización y lectura de logs.
+                #  Por defecto en Debian, muchos registros de /var/log/ (como /var/log/apache2/*.log, auth.log, syslog o el journal de systemd) se crean con propietario root, grupo adm y permisos 640 (rw-r-----).
+                #  Así, cuando quieres que un usuario o servicio pueda sólo leer esos logs sin ser root ni poder modificarlos, Debian usa el grupo adm.
                 sudo usermod -aG adm www-data
 
               # Comprobar la configuración y recargar Apache
@@ -211,6 +214,9 @@
                 sudo a2enconf zz-nipegun-live-panel
 
               # Permitir a www-data leer logs estándar del grupo adm
+                #  adm es un grupo de sistema que viene de fábrica en Debian (GID 4) dedicado exclusivamente a tareas de monitorización y lectura de logs.
+                #  Por defecto en Debian, muchos registros de /var/log/ (como /var/log/apache2/*.log, auth.log, syslog o el journal de systemd) se crean con propietario root, grupo adm y permisos 640 (rw-r-----).
+                #  Así, cuando quieres que un usuario o servicio pueda sólo leer esos logs sin ser root ni poder modificarlos, Debian usa el grupo adm.
                 sudo usermod -aG adm www-data
 
               # Comprobar la configuración y recargar Apache
