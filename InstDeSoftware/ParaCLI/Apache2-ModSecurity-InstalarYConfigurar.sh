@@ -185,9 +185,9 @@
                 # - root (el proceso maestro de Apache) es el único que puede escribir o truncar los logs.
                 # - www-data (PHP / nipegun-live-panel) puede leer únicamente los logs de la web y no ve nada de /var/log/.
                 # - El resto de usuarios del sistema (0) no puede ni entrar en la carpeta. (Incluso puedes quitar sudo usermod -aG adm www-data de las opciones 3 y 4 del script si siempre usas /var/www/<dominio>-logs/).
-                chown -R root:www-data /var/www/nipegun.com-logs
-                chmod 750 /var/www/nipegun.com-logs
-                chmod 640 /var/www/nipegun.com-logs/*.log
+                chown -Rv root:www-data /var/www/dominio.com-logs
+                chmod 750 -v /var/www/dominio.com-logs
+                chmod 640 -v /var/www/dominio.com-logs/*.log
 
               # Comprobar la configuración y recargar Apache
                 echo ""
@@ -235,9 +235,9 @@
                 # - root (el proceso maestro de Apache) es el único que puede escribir o truncar los logs.
                 # - www-data (PHP / nipegun-live-panel) puede leer únicamente los logs de la web y no ve nada de /var/log/.
                 # - El resto de usuarios del sistema (0) no puede ni entrar en la carpeta. (Incluso puedes quitar sudo usermod -aG adm www-data de las opciones 3 y 4 del script si siempre usas /var/www/<dominio>-logs/).
-                chown -Rv root:www-data /var/www/nipegun.com-logs
-                chmod 750 -v /var/www/nipegun.com-logs
-                chmod 640 -v /var/www/nipegun.com-logs/*.log
+                chown -Rv root:www-data /var/www/dominio.com-logs
+                chmod 750 -v /var/www/dominio.com-logs
+                chmod 640 -v /var/www/dominio.com-logs/*.log
   
               # Comprobar la configuración y recargar Apache
                 echo ""
