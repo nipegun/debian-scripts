@@ -13,15 +13,9 @@
 #
 # Ejecución remota como root (para sistemas sin sudo):
 #   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Desinstalar.sh | sed 's-sudo--g' | bash
-#
-# Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Desinstalar.sh | bash
-#
-# Ejecución remota con parámetros:
-#   curl -sL https://raw.githubusercontent.com/nipegun/debian-scripts/refs/heads/main/PostInstDebian/Controladores/Graficas-NVIDIA-Controladores-DeWeb-Desinstalar.sh | bash -s Parámetro1 Parámetro2
 # ----------
 
-vNroUltVersEstable=$(curl -fsSL 'https://www.nvidia.com/es-es/drivers/unix/' | grep -m2 'Linux x86_64/AMD64/EM64T' | grep roducc | grep -oP '<span class="PB">.*?<a[^>]*>\K[0-9]+(\.[0-9]+)+')
+vNroUltVersEstable=$(curl -fsSL https://download.nvidia.com/XFree86/Linux-x86_64/latest.txt | cut -d' ' -f1)
 
 # Definir constantes de color
   cColorAzul="\033[0;34m"
@@ -62,7 +56,6 @@ if [ $cVerSO == "13" ]; then
     echo ""
     echo "    Descargando el instalador..."
     echo ""
-    vNroUltVersEstable=$(curl -fsSL https://download.nvidia.com/XFree86/Linux-x86_64/latest.txt | cut -d' ' -f1)
     curl -L https://es.download.nvidia.com/XFree86/Linux-x86_64/"$vNroUltVersEstable"/NVIDIA-Linux-x86_64-"$vNroUltVersEstable".run -o /tmp/nVidiaWebDriverInstall.run
     chmod +x /tmp/nVidiaWebDriverInstall.run
 
