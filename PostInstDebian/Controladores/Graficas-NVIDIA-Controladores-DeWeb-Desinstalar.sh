@@ -62,6 +62,7 @@ if [ $cVerSO == "13" ]; then
     echo ""
     echo "    Descargando el instalador..."
     echo ""
+    vNroUltVersEstable=$(curl -fsSL https://download.nvidia.com/XFree86/Linux-x86_64/latest.txt | cut -d' ' -f1)
     curl -L https://es.download.nvidia.com/XFree86/Linux-x86_64/"$vNroUltVersEstable"/NVIDIA-Linux-x86_64-"$vNroUltVersEstable".run -o /tmp/nVidiaWebDriverInstall.run
     chmod +x /tmp/nVidiaWebDriverInstall.run
 
