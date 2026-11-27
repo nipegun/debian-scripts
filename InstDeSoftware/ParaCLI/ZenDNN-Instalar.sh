@@ -77,7 +77,8 @@
       cd "$HOME/Code/ZenDNN-$cRamaEstable"
 
     # Preparar /opt/zendnn
-      sudo mkdir -m 0755 /opt/zendnn && sudo chown "$(id -u):$(id -g)" /opt/zendnn
+      sudo rm -rf /opt/zendnn/ 2> /dev/null
+      sudo mkdir -m 0755 /opt/zendnn/ && sudo chown "$(id -u):$(id -g)" /opt/zendnn/
 
     # Compilar e instalar
       cd "$HOME/Code/ZenDNN-$cRamaEstable"
@@ -87,7 +88,7 @@
           if [ "$vHilos" -lt 1 ]; then
             vHilos=1
           fi
-      # Compilar
+      # Preparar la compilación
         cmake -S . -B build-system             \
           -DZENDNNL_INSTALL_PREFIX=/opt/zendnn \
           -DZENDNNL_BUILD_TYPE=Release         \
@@ -97,7 +98,8 @@
           -DZENDNNL_BUILD_GTEST=OFF            \
           -DZENDNNL_BUILD_DOXYGEN=OFF          \
           -DZENDNNL_BUILD_SYS_NPROC="$vHilos"
-        cmake --build build-system --target all --parallel "$ZENDNN_JOBS"
+      # Compilar
+        cmake --build build-system --target all --parallel "$vHilos"
 
     # Registrar la biblioteca en Debian
       printf '%s\n' '/opt/zendnn/zendnnl/lib' | sudo tee /etc/ld.so.conf.d/zendnn.conf >/dev/null
