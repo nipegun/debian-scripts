@@ -61,9 +61,63 @@
     echo -e "${cColorAzulClaro}  Iniciando el script de instalación de ZenDNN para Debian 13 (x)...${cFinColor}"
     echo ""
 
-    echo ""
-    echo -e "${cColorRojo}    Comandos para Debian 13 todavía no preparados. Prueba ejecutarlo en otra versión de Debian.${cFinColor}"
-    echo ""
+    sudo apt-get -y update
+
+    sudo apt-get -y install build-essential
+    sudo apt-get -y install cmake
+    sudo apt-get -y install git
+    sudo apt-get -y install python3
+    sudo apt-get -y install ca-certificates
+
+    # Descargar la última versión estable
+      mkdir -p "$HOME/Code/"  
+      cRamaEstable='v6.1.0'
+      rm -rf "$HOME/Code/ZenDNN-$cRamaEstable"
+      git clone --depth 1 --branch "$cRamaEstable" https://github.com/amd/ZenDNN.git "$HOME/Code/ZenDNN-$cRamaEstable"
+      cd "$HOME/Code/ZenDNN-$cRamaEstable"
+
+    # Preparar /opt/zendnn
+      sudo mkdir -m 0755 /opt/zendnn && sudo chown "$(id -u):$(id -g)" /opt/zendnn
+
+    # Compilar e instalar
+      cd "$HOME/Code/ZenDNN-$cRamaEstable"
+      # Determinar la cantidad de hilos
+        vHilos=$(( $(nproc) - 1 ))
+        # Comprobar que no quede en cero
+          if [ "$vHilos" -lt 1 ]; then
+            vHilos=1
+          fi
+      # Compilar
+        cmake -S . -B build-system             \
+          -DZENDNNL_INSTALL_PREFIX=/opt/zendnn \
+          -DZENDNNL_BUILD_TYPE=Release         \
+          -DZENDNNL_LIB_BUILD_SHARED=ON        \
+          -DZENDNNL_LIB_BUILD_ARCHIVE=ON       \
+          -DZENDNNL_BUILD_EXAMPLES=ON          \
+          -DZENDNNL_BUILD_GTEST=OFF            \
+          -DZENDNNL_BUILD_DOXYGEN=OFF          \
+          -DZENDNNL_BUILD_SYS_NPROC="$vHilos"
+        cmake --build build-system --target all --parallel "$ZENDNN_JOBS"
+
+    # Registrar la biblioteca en Debian
+      printf '%s\n' '/opt/zendnn/zendnnl/lib' | sudo tee /etc/ld.so.conf.d/zendnn.conf >/dev/null
+      sudo ldconfig
+
+    # Facilitar que CMake encuentre ZenDNN
+      printf '%s\n' 'export CMAKE_PREFIX_PATH="/opt/zendnn/zendnnl${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}"' | sudo tee /etc/profile.d/zendnn.sh >/dev/null
+      sudo chmod 0644 /etc/profile.d/zendnn.sh
+
+    # Activarlo también en la terminal actual
+      . /etc/profile.d/zendnn.sh
+
+    # Para indicar la ubicación explícitamente al configurar una aplicación que use ZenDNN:
+    #   cmake -S . -B build -Dzendnnl_DIR=/opt/zendnn/zendnnl/lib/cmake
+
+    # Comprobación de la instalación
+      /sbin/ldconfig -p | grep -F libzendnnl
+
+    # Revisar las dependencias
+      ldd /opt/zendnn/zendnnl/lib/libzendnnl.so
 
   elif [ $cVerSO == "12" ]; then
 
