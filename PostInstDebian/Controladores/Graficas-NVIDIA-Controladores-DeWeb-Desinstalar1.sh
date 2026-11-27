@@ -59,6 +59,14 @@ if [ $cVerSO == "13" ]; then
     curl -L https://es.download.nvidia.com/XFree86/Linux-x86_64/"$vNroUltVersEstable"/NVIDIA-Linux-x86_64-"$vNroUltVersEstable".run -o /tmp/nVidiaWebDriverInstall.run
     chmod +x /tmp/nVidiaWebDriverInstall.run
 
+  # Parar entorno gráfico
+    echo ""
+    echo "    Parando entorno gráfico..."
+    echo ""
+    sudo systemctl stop gdm
+    sudo systemctl stop sddm
+    sudo systemctl stop lightdm
+
   # Ejecutar el desinstalador
     echo ""
     echo "    Ejecutando el desinstalador..."
